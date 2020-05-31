@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="來源檔案">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="標頭檔">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="資源檔">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="標頭檔\Common">
+      <UniqueIdentifier>{3e36a7dd-0581-4a57-b88d-f626ac90acf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="標頭檔\Common\Geometry">
+      <UniqueIdentifier>{14136c97-0911-4525-b9b6-71d909f66e86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="資源檔\Common">
+      <UniqueIdentifier>{059fbe2d-e7c1-435f-9d7d-3ec307cbd264}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="資源檔\Common\Geometry">
+      <UniqueIdentifier>{6f104e3c-da75-46e1-994e-f44af8ed2cd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="資源檔\GL">
+      <UniqueIdentifier>{c3b7a5ae-d56f-4ef8-b1bf-2cb9f4397449}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="標頭檔\GL">
+      <UniqueIdentifier>{347fcdaf-c93e-4449-b361-2485772eff96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="標頭檔\View">
+      <UniqueIdentifier>{e3a3422d-ee3d-4235-b358-ab60af114b75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="資源檔\View">
+      <UniqueIdentifier>{34dfdf78-8d64-4424-94bf-929ddff734c3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Include\glad\glad.c">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="main\main.cpp">
+      <Filter>資源檔</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\Geometry.cpp">
+      <Filter>資源檔\Common\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\Vector.cpp">
+      <Filter>資源檔\Common\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\Rect.cpp">
+      <Filter>資源檔\Common\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\GLDevice.cpp">
+      <Filter>資源檔\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\ViewContext.cpp">
+      <Filter>資源檔</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\GLColor.cpp">
+      <Filter>資源檔\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\_DEBUG_OBJECT.hpp">
+      <Filter>標頭檔</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\ViewEngine.cpp">
+      <Filter>資源檔\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\ViewController.cpp">
+      <Filter>資源檔\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\EventContext.cpp">
+      <Filter>資源檔\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\GLResource.cpp">
+      <Filter>資源檔\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\GLVertexObject.cpp">
+      <Filter>資源檔\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\GLShaderProgram.cpp">
+      <Filter>資源檔\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\FileManager.cpp">
+      <Filter>資源檔\Common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Viewer\Geometry.h">
+      <Filter>標頭檔\Common\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\Vector.h">
+      <Filter>標頭檔\Common\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\Rect.h">
+      <Filter>標頭檔\Common\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\GLDevice.h">
+      <Filter>標頭檔\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\ViewContext.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\GLColor.h">
+      <Filter>標頭檔\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\ViewEngine.h">
+      <Filter>標頭檔\View</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\ViewController.h">
+      <Filter>標頭檔\View</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\EventContext.h">
+      <Filter>標頭檔\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\GLResource.h">
+      <Filter>標頭檔\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\GLVertexObject.h">
+      <Filter>標頭檔\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\GLShaderProgram.h">
+      <Filter>標頭檔\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\FileManager.h">
+      <Filter>標頭檔\Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
