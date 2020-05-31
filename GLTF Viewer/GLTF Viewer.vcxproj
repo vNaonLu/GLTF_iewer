@@ -176,6 +176,7 @@
     <ClInclude Include="Viewer\GLDevice.h" />
     <ClInclude Include="Viewer\GLResource.h" />
     <ClInclude Include="Viewer\GLShaderProgram.h" />
+    <ClInclude Include="Viewer\GLTFObject.h" />
     <ClInclude Include="Viewer\GLVertexObject.h" />
     <ClInclude Include="Viewer\Rect.h" />
     <ClInclude Include="Viewer\EventContext.h" />

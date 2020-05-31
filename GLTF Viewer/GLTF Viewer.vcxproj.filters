@@ -128,5 +128,8 @@
     <ClInclude Include="Viewer\FileManager.h">
       <Filter>標頭檔\Common</Filter>
     </ClInclude>
+    <ClInclude Include="Viewer\GLTFObject.h">
+      <Filter>標頭檔\GL</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

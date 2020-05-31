@@ -4,7 +4,7 @@ namespace vNaonGL{
 
 	class GLTFObject {
 
-
+		// TODO: json
 
 	};
 
