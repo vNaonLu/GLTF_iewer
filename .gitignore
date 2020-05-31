@@ -1,2 +1,5 @@
 .vs
-"GLTF Viewer.*"
+*.sln
+*.vcxproj
+*.filters
+*.user
