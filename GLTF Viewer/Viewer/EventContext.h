@@ -30,7 +30,7 @@ namespace vNaonCommon {
 		Task mProcess;
 
 	public:
-		static EventTask Create(T value, Task process) {
+		static EventTask create(T value, Task process) {
 			return std::make_shared<CEventTask<T>>(value, process);
 		}
 

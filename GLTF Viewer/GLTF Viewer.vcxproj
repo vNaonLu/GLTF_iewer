@@ -161,7 +161,9 @@
     <ClCompile Include="Viewer\GLDevice.cpp" />
     <ClCompile Include="Viewer\GLResource.cpp" />
     <ClCompile Include="Viewer\GLShaderProgram.cpp" />
+    <ClCompile Include="Viewer\GLTexture.cpp" />
     <ClCompile Include="Viewer\GLVertexObject.cpp" />
+    <ClCompile Include="Viewer\Image.cpp" />
     <ClCompile Include="Viewer\Rect.cpp" />
     <ClCompile Include="Viewer\Vector.cpp" />
     <ClCompile Include="Viewer\ViewContext.cpp" />
@@ -176,8 +178,10 @@
     <ClInclude Include="Viewer\GLDevice.h" />
     <ClInclude Include="Viewer\GLResource.h" />
     <ClInclude Include="Viewer\GLShaderProgram.h" />
+    <ClInclude Include="Viewer\GLTexture.h" />
     <ClInclude Include="Viewer\GLTFObject.h" />
     <ClInclude Include="Viewer\GLVertexObject.h" />
+    <ClInclude Include="Viewer\Image.h" />
     <ClInclude Include="Viewer\Rect.h" />
     <ClInclude Include="Viewer\EventContext.h" />
     <ClInclude Include="Viewer\Vector.h" />

@@ -8,6 +8,7 @@
 #include "GLcolor.h"
 #include "GLResource.h"
 #include "GLVertexObject.h"
+#include "GLTexture.h"
 
 namespace vNaonGL {
 
@@ -17,6 +18,7 @@ namespace vNaonGL {
 	class GLdevice {
 	private:
 		GLcolor mClearColor;
+		pGLTexture pEmptyTexutre;
 
 		pGLvertexarray pCurrentBoundVAO;
 		pGLshaderprogram pCurrentBoundSPO;
@@ -56,6 +58,26 @@ namespace vNaonGL {
 
 		bool useProgram(pGLshaderprogram pSPO);
 
+		// Texutre...
+		// ---
+
+		pGLTexture createTextureFromFile(
+			const std::string &path,
+			GLTexture::SAMPLAR samplar = GLTexture::SAMPLAR{ 
+				0, 
+				1, 
+				1,
+				GL_RGBA, 
+				GL_UNSIGNED_BYTE,
+				GL_LINEAR,
+				GL_LINEAR,
+				GL_REPEAT,
+				GL_REPEAT
+			}
+		) const;
+
+		pGLTexture createEmptyTexture() const;
+
 	protected:
 		void bindVertexBuffer(pGLvertexbuffer pVBO) const;
 		void unbindVertexBuffer() const;
@@ -67,6 +89,8 @@ namespace vNaonGL {
 		void vertexAttribPointer(GLuint idx, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLsizeiptr offset) const;
 
 		bool compileShader(GLuint hS, GLchar *pSrc, GLint length, std::string &info) const;
+
+		void initDefaultValues();
 
 	private:
 		//Used for debug error.

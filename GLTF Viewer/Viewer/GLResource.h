@@ -21,6 +21,9 @@ namespace vNaonGL {
 	class GLshaderprogram;
 	typedef std::shared_ptr<GLshaderprogram> pGLshaderprogram;
 
+	class GLTexture;
+	typedef std::shared_ptr<GLTexture> pGLTexture;
+	
 	class GLresource {
 	
 	protected:

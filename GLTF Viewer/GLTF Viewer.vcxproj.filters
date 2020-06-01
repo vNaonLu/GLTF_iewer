@@ -87,6 +87,12 @@
     <ClCompile Include="Viewer\FileManager.cpp">
       <Filter>資源檔\Common</Filter>
     </ClCompile>
+    <ClCompile Include="Viewer\Image.cpp">
+      <Filter>資源檔\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\GLTexture.cpp">
+      <Filter>資源檔\GL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Viewer\Geometry.h">
@@ -129,6 +135,12 @@
       <Filter>標頭檔\Common</Filter>
     </ClInclude>
     <ClInclude Include="Viewer\GLTFObject.h">
+      <Filter>標頭檔\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\Image.h">
+      <Filter>標頭檔\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\GLTexture.h">
       <Filter>標頭檔\GL</Filter>
     </ClInclude>
   </ItemGroup>

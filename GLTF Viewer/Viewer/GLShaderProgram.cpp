@@ -17,7 +17,7 @@ namespace vNaonGL {
 	GLshaderprogram::~GLshaderprogram() {
 	}
 
-	pGLresource GLshaderprogram::Create(GLuint handle, const std::string &name) {
+	pGLresource GLshaderprogram::create(GLuint handle, const std::string &name) {
 		return std::make_shared<GLshaderprogram>(handle, name);
 	}
 

@@ -11,7 +11,7 @@ namespace vNaonGL {
 	GLvertexbuffer::~GLvertexbuffer() {
 	}
 
-	pGLvertexbuffer GLvertexbuffer::Create(GLuint handle, GLenum usage) {
+	pGLvertexbuffer GLvertexbuffer::create(GLuint handle, GLenum usage) {
 		return std::make_shared<GLvertexbuffer>(handle, usage);
 	}
 
@@ -24,7 +24,7 @@ namespace vNaonGL {
 	GLindiciesbuffer::~GLindiciesbuffer() {
 	}
 
-	pGLindiciesbuffer GLindiciesbuffer::Create(GLuint handle, GLenum usage) {
+	pGLindiciesbuffer GLindiciesbuffer::create(GLuint handle, GLenum usage) {
 		return std::make_shared<GLindiciesbuffer>(handle, usage);
 	}
 
@@ -38,7 +38,7 @@ namespace vNaonGL {
 	GLvertexarray::~GLvertexarray() {
 	}
 
-	pGLvertexarray GLvertexarray::Create(GLuint handle) {
+	pGLvertexarray GLvertexarray::create(GLuint handle) {
 		return std::make_shared<GLvertexarray>(handle);
 	}
 

@@ -17,7 +17,7 @@ namespace vNaonGL {
 		GLshaderprogram(GLuint handle, const std::string &name );
 		~GLshaderprogram();
 
-		static pGLresource Create(GLuint handle, const std::string &name);
+		static pGLresource create(GLuint handle, const std::string &name);
 
 		bool attachVertexShaderFromMemory(const std::string &source);
 		bool attachFragmentShaderFromMemory(const std::string &source);

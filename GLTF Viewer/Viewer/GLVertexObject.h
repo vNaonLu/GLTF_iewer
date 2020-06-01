@@ -14,7 +14,7 @@ namespace vNaonGL {
 		GLvertexbuffer(GLuint handle, GLenum usage);
 		~GLvertexbuffer();
 
-		static pGLvertexbuffer Create(GLuint handle, GLenum usage);
+		static pGLvertexbuffer create(GLuint handle, GLenum usage);
 
 		friend class GLdevice;
 
@@ -30,7 +30,7 @@ namespace vNaonGL {
 		GLindiciesbuffer(GLuint handle, GLenum usage);
 		~GLindiciesbuffer();
 
-		static pGLindiciesbuffer Create(GLuint handle, GLenum usage);
+		static pGLindiciesbuffer create(GLuint handle, GLenum usage);
 
 		friend class GLdevice;
 
@@ -56,7 +56,7 @@ namespace vNaonGL {
 		GLvertexarray(GLuint handle);
 		~GLvertexarray();
 
-		static pGLvertexarray Create(GLuint handle);
+		static pGLvertexarray create(GLuint handle);
 
 	protected:
 		void attachInfomation(ATTRIB_INFO info);

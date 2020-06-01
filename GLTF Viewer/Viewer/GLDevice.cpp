@@ -1,6 +1,7 @@
 #include "GLdevice.h"
 #include "GLVertexObject.h"
 #include "GLShaderProgram.h"
+#include "Image.h"
 
 #include "_DEBUG_OBJECT.hpp"
 
@@ -50,7 +51,7 @@ namespace vNaonGL {
 		glBufferData(GL_ARRAY_BUFFER, length, pData, usage);
 		__getRenderError("glBufferData");
 
-		pGLvertexbuffer ret = GLvertexbuffer::Create(vboHandle, usage);
+		pGLvertexbuffer ret = GLvertexbuffer::create(vboHandle, usage);
 
 		ret->attachDestoryFunc([this](GLuint *hName) {
 			glDeleteBuffers(1, hName);
@@ -71,7 +72,7 @@ namespace vNaonGL {
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, length, pData, usage);
 		__getRenderError("glBufferData");
 
-		pGLindiciesbuffer ret = GLindiciesbuffer::Create(iboHandle, usage);
+		pGLindiciesbuffer ret = GLindiciesbuffer::create(iboHandle, usage);
 
 		ret->attachDestoryFunc([this](GLuint *hName) {
 			glDeleteBuffers(1, hName);
@@ -86,7 +87,7 @@ namespace vNaonGL {
 		glGenVertexArrays(1, &vaoHandle);
 		__getRenderError("glGenVertexArrays");
 
-		pGLvertexarray ret = GLvertexarray::Create(vaoHandle);
+		pGLvertexarray ret = GLvertexarray::create(vaoHandle);
 
 		ret->attachDestoryFunc([this](GLuint *hName) {
 			glDeleteVertexArrays(1, hName);
@@ -216,6 +217,69 @@ namespace vNaonGL {
 		return __getRenderError("glUseProgram");
 	}
 
+	pGLTexture GLdevice::createTextureFromFile(const std::string &path, GLTexture::SAMPLAR samplar) const{
+		pGLTexture ret = nullptr;
+		vNaonCommon::pBitmapImg img = vNaonCommon::CBitmapImg::createFromFile(path);
+		if ( img != nullptr ) {
+			samplar.width = img->getWidth();
+			samplar.height = img->getHeight();
+
+			bool success = true;
+			GLuint hTex;
+			glGenTextures(1, &hTex);
+			success |= __getRenderError("glGenTextures");
+
+			glActiveTexture(GL_TEXTURE0);
+			success |= __getRenderError("glActiveTexture");
+
+			glBindTexture(GL_TEXTURE_2D, hTex);
+			success |= __getRenderError("glBindTexture");
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, samplar.wrapS);
+			success |= __getRenderError("glTexParameteri");
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, samplar.wrapT);
+			success |= __getRenderError("glTexParameteri");
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, samplar.minFilter);
+			success |= __getRenderError("glTexParameteri");
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, samplar.magFilter);
+			success |= __getRenderError("glTexParameteri");
+
+			glTexImage2D(GL_TEXTURE_2D, samplar.level, samplar.format, samplar.width, samplar.height, 0, samplar.format, samplar.type, img->getBuffer());
+			success |= __getRenderError("glTexImage2D");
+
+			glGenerateMipmap(GL_TEXTURE_2D);
+			success |= __getRenderError("glGenerateMipmap");
+
+			// reset texture
+			glBindTexture(GL_TEXTURE_2D, pEmptyTexutre->getHandle());
+			success |= __getRenderError("glBindTexture");
+
+			if ( success )
+				ret = GLTexture::create(hTex, samplar);
+
+		}
+		return ret;
+	}
+
+	pGLTexture GLdevice::createEmptyTexture() const {
+		GLTexture::SAMPLAR samplar{ 0, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT };
+		GLuint hTex;
+		glGenTextures(1, &hTex);
+		__getRenderError("glGenTextures");
+		glActiveTexture(GL_TEXTURE0);
+		__getRenderError("glActiveTexture");
+		glBindTexture(GL_TEXTURE_2D, hTex);
+		__getRenderError("glBindTexture");
+		float bin[4] = { 0, 0, 0, 1 };
+		glTexImage2D(GL_TEXTURE_2D, samplar.level, samplar.format, samplar.width, samplar.height, 0, samplar.format, samplar.type, bin);
+		__getRenderError("glTexImage2D");
+
+		return GLTexture::create(hTex, samplar);
+	}
+
 	void GLdevice::bindVertexBuffer(pGLvertexbuffer pVBO) const {
 		glBindBuffer(GL_ARRAY_BUFFER, pVBO->getHandle());
 		__getRenderError("glBindBuffer");
@@ -261,6 +325,12 @@ namespace vNaonGL {
 		} else {
 			return true;
 		}
+	}
+
+	void GLdevice::initDefaultValues() {
+
+		pEmptyTexutre = createEmptyTexture();
+
 	}
 
 	// for debug
