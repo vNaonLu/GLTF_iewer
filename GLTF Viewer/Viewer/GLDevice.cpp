@@ -219,7 +219,7 @@ namespace vNaonGL {
 
 	pGLTexture GLdevice::createTextureFromFile(const std::string &path, GLTexture::SAMPLAR samplar) const{
 		pGLTexture ret = nullptr;
-		vNaonCommon::pBitmapImg img = vNaonCommon::CBitmapImg::createFromFile(path);
+		vnaon_common::pBitmapImg img = vnaon_common::CBitmapImg::createFromFile(path);
 		if ( img != nullptr ) {
 			samplar.width = img->getWidth();
 			samplar.height = img->getHeight();

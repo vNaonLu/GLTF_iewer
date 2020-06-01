@@ -1,7 +1,7 @@
 #include<cmath>
 #include "Rect.h"
 
-namespace vNaonGeometry {
+namespace vnaon_geometry {
 
 	Rect::Rect()
 		: left(0.0), top(0.0), right(0.0), bottom(0.0) {

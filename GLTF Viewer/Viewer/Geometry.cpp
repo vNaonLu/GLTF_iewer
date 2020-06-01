@@ -1,6 +1,6 @@
 #include "Geometry.h"
 
-namespace vNaonGeometry {
+namespace vnaon_geometry {
 
 	// interface of geometry.
 	geoObject::geoObject() {

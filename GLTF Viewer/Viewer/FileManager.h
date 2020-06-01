@@ -2,7 +2,7 @@
 #include <string>
 #include <memory>
 
-namespace vNaonCommon {
+namespace vnaon_common {
 
 	class FileManager {
 

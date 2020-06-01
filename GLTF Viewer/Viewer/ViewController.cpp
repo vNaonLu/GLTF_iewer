@@ -1,24 +1,24 @@
 #include "ViewController.h"
 
-namespace vNaonScenes {
+namespace vnaon_scenes {
 
-	CViewContorller::CViewContorller() {
+	view_controller::view_controller() {
 		pViewEngine = new CViewEngine();
 	}
 
-	CViewContorller::~CViewContorller() {
+	view_controller::~view_controller() {
 	}
 
-	bool CViewContorller::Render() {
+	bool view_controller::Render() {
 		pViewEngine->Draw();
 		return true;
 	}
 
-	void CViewContorller::close() {
+	void view_controller::close() {
 		if ( pViewEngine != nullptr ) delete pViewEngine;
 	}
 
-	void CViewContorller::resizeViewer(const int &w, const int &h) {
+	void view_controller::resizeViewer(const int &w, const int &h) {
 		pViewEngine->resizeViewer(w, h);
 	}
 

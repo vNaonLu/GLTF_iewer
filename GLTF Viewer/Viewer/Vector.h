@@ -3,7 +3,7 @@
 #include <glm/vec3.hpp>
 #include "Geometry.h"
 
-namespace vNaonGeometry {
+namespace vnaon_geometry {
 
 	class Vector : public geoObject{
 		typedef glm::dvec3 _vec;

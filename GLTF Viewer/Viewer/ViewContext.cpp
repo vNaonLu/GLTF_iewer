@@ -5,117 +5,92 @@
 #include "ViewContext.h"
 #include "Rect.h"
 
-namespace vNaonScenes {
-
-	CViewContorller *CRenderContext::pController = nullptr;
-	CRenderContext::CRenderContext(const std::string &windowsName, const double &width, const double &height) {
-
-		pWindow = nullptr;
-		mWindowName = windowsName;
-		mViewPort.right = width;
-		mViewPort.bottom = height;
-
+namespace vnaon_scenes {
+	// ---
+	view_controller *render_context::controller_p = nullptr;
+	render_context::render_context(const std::string &arg_name, const int &arg_width, const int &arg_height) {
+		window_p = nullptr;
+		window_name = arg_name;
+		view_port.right = arg_width;
+		view_port.bottom = arg_height;
 	}
-
-	CRenderContext::~CRenderContext() {
+	render_context::~render_context() {
 		terminate();
 
-		if ( CRenderContext::pController != nullptr ) {
-			CRenderContext::pController->close();
-			delete  CRenderContext::pController;
+		if ( render_context::controller_p != nullptr ) {
+			render_context::controller_p->close();
+			delete  render_context::controller_p;
 		}
-
 	}
+	void render_context::render() {
+		if ( !init() ) return;
 
-	void CRenderContext::render() {
-
-		mRenderConditionVariable.notify_one();
-
-		if ( !initialize() ) return;
-
-		setSwapInterval(1);
-
-		while ( isAlive() ) {
-
-			CRenderContext::pController->Render();
-
-			swapBuffer();
+		set_swap_interval(1);
+		while ( alive() ) {
+			render_context::controller_p->Render();
+			swap_buffer();
 		}
-
 	}
-
-	bool CRenderContext::createWindow() {
-		using namespace vNaonGeometry;
+	bool render_context::create_window() {
+		using namespace vnaon_geometry;
 
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-		int width = (int) Rect::width(mViewPort);
-		int height = (int) Rect::height(mViewPort);
-		pWindow = glfwCreateWindow(width, height, mWindowName.c_str(), nullptr, nullptr);
+		int width = (int) Rect::width(view_port);
+		int height = (int) Rect::height(view_port);
+		window_p = glfwCreateWindow(width, height, window_name.c_str(), nullptr, nullptr);
 
-		if ( pWindow == nullptr )
+		if ( window_p == nullptr )
 			return false;
 		else
 			return true;
 
 	}
-
-	bool CRenderContext::initializeWindow() {
-		if ( pWindow == nullptr )
+	bool render_context::init_window() {
+		if ( window_p == nullptr )
 			return false;
 
-		glfwMakeContextCurrent(pWindow);
+		glfwMakeContextCurrent(window_p);
 
 		if ( !gladLoadGLLoader((GLADloadproc) glfwGetProcAddress) )
 			return false;
 
 		return true;
 	}
-
-	bool CRenderContext::isAlive() const {
-		return  !glfwWindowShouldClose(pWindow);
+	bool render_context::alive() const {
+		return  !glfwWindowShouldClose(window_p);
 	}
-
-	void CRenderContext::swapBuffer() {
-		glfwSwapBuffers(pWindow);
+	void render_context::swap_buffer() {
+		glfwSwapBuffers(window_p);
 		glfwPollEvents();
 	}
-
-	void CRenderContext::setSwapInterval(int interval) {
+	void render_context::set_swap_interval(int interval) {
 		glfwSwapInterval(interval);
 	}
-
-	void CRenderContext::terminate() {
+	void render_context::terminate() {
 		glfwTerminate();
-		if ( pWindow != nullptr ) glfwDestroyWindow(pWindow);
+		if ( window_p != nullptr ) glfwDestroyWindow(window_p);
 	}
-
-	bool CRenderContext::initialize() {
-		CRenderContext::pController = new vNaonScenes::CViewContorller();
-
-		createWindow();
-
-		initializeWindow();
+	bool render_context::init() {
+		render_context::controller_p = new vnaon_scenes::view_controller();
+		create_window();
+		init_window();
 
 		bool ret = true;
 		return ret;
 	}
-
-	void CRenderContext::attachEvent() {
-		glfwSetFramebufferSizeCallback(pWindow, onResizeWindow);
+	void render_context::attach_event() {
+		glfwSetFramebufferSizeCallback(window_p, onResize);
 	}
+	void render_context::process() {
 
-	void CRenderContext::process() {
-
-		while ( stopProcessIfNeed() ) {
+		while ( stop_if_need() ) {
 		}
 	}
-
-	void CRenderContext::onResizeWindow(GLFWwindow *window, int width, int height) {
-		CRenderContext::pController->resizeViewer(width, height);
+	void render_context::onResize(GLFWwindow *window, int width, int height) {
+		render_context::controller_p->resizeViewer(width, height);
 	}
-
 }

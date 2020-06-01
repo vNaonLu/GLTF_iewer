@@ -1,6 +1,6 @@
 #pragma once
 
-namespace vNaonGeometry {
+namespace vnaon_geometry {
 	/* Geometry Title */
 
 	enum class GEO_TYPE {

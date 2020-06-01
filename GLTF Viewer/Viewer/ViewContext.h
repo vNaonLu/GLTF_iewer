@@ -6,48 +6,36 @@
 #include "ViewController.h"
 #include "EventContext.h"
 
-namespace vNaonScenes {
-
-	class CRenderContext : public vNaonCommon::CEventContext {
+namespace vnaon_scenes {
+	/*
+	 * render_context
+	 * The context between the OpenGL and the controller.
+	 */
+	class render_context : public vnaon_common::_i_event_context {
 	public:
-		static CViewContorller *pController;
-
+		static view_controller *controller_p;
 	private:
-		GLFWwindow *pWindow;
-		std::string mWindowName;
+		GLFWwindow *window_p;
+		std::string window_name;
 
-		std::mutex mRenderMutex;
-		std::condition_variable mRenderConditionVariable;
-		vNaonGeometry::Rect mViewPort;
-
+		vnaon_geometry::Rect view_port;
 	public:
-		CRenderContext( const std::string &windowsName, const double &width, const double &height);
-		~CRenderContext();
-
+		render_context(const std::string &arg_name, const int &arg_width, const int &arg_height);
+		~render_context();
+		// the main function of render_context.
 		void render();
-
 	private:
-		bool createWindow();
-
-		bool initializeWindow();
-
-		bool isAlive() const;
-
-		void swapBuffer();
-
-		void setSwapInterval(int interval);
-
+		bool init();
+		bool create_window();
+		bool init_window();
+		bool alive() const;
+		void swap_buffer();
+		void set_swap_interval(int interval);
 		void terminate();
-
-		bool initialize();
-
-		void attachEvent();
-
+		void attach_event();
 		virtual void process() override;
-
 	public:
-		// event
-		static void onResizeWindow(GLFWwindow *window, int width, int height);
+		static void onResize(GLFWwindow *window, int width, int height);
 
 	};
 

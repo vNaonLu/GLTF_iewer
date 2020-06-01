@@ -1,7 +1,7 @@
 #include <cmath>
 #include "Vector.h"
 
-namespace vNaonGeometry {
+namespace vnaon_geometry {
 
 	Vector::Vector()
 		:x(0.0), y(0.0), z(0.0) {

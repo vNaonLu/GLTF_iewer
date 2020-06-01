@@ -2,7 +2,7 @@
 
 #include "_DEBUG_OBJECT.hpp"
 
-namespace vNaonScenes {
+namespace vnaon_scenes {
 
 	CViewEngine::CViewEngine() {
 		mLastEngineTime = std::chrono::steady_clock::now();

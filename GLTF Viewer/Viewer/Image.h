@@ -1,9 +1,8 @@
 #pragma once
-#include <stb/stb_image.h>
 #include <memory>
 #include <string>
 
-namespace vNaonCommon{ 
+namespace vnaon_common{ 
 
 	class CBitmapImg;
 	typedef std::shared_ptr<CBitmapImg> pBitmapImg;

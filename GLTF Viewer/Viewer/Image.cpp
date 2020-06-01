@@ -1,6 +1,11 @@
+#ifndef STBI_INCLUDE_STB_IMAGE_H
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb/stb_image.h>
+#endif
+
 #include"Image.h"
 
-namespace vNaonCommon {
+namespace vnaon_common {
 
 	CBitmapImg::CBitmapImg(unsigned char *buffer, std::size_t width, std::size_t height) {
 

@@ -34,7 +34,7 @@ namespace vNaonGL {
 
 	bool GLshaderprogram::attachVertexShaderFromFile(const std::string &path) {
 
-		auto source = vNaonCommon::FileManager::getBinaryFromFile(path);
+		auto source = vnaon_common::FileManager::getBinaryFromFile(path);
 
 		if ( source != nullptr ) {
 			mOriginalVertexShaderText = source->getBuffer();
@@ -46,7 +46,7 @@ namespace vNaonGL {
 
 	bool GLshaderprogram::attachFragmentShaderFromFile(const std::string &path) {
 
-		auto source = vNaonCommon::FileManager::getBinaryFromFile(path);
+		auto source = vnaon_common::FileManager::getBinaryFromFile(path);
 
 		if ( source != nullptr ) {
 			mOriginalFragmentShaderText.push_back(source->getBuffer());

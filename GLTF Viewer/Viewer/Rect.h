@@ -1,7 +1,7 @@
 #pragma once
 #include "Vector.h"
 
-namespace vNaonGeometry {
+namespace vnaon_geometry {
 
 	class Rect : public geoObject{
 	

@@ -3,7 +3,7 @@
 
 #include "GLdevice.h"
 
-namespace vNaonScenes {
+namespace vnaon_scenes {
 
 	/*
 	An engine used to control and manage render.

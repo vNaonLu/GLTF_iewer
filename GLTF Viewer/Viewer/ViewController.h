@@ -4,15 +4,15 @@
 
 #include "ViewEngine.h"
 
-namespace vNaonScenes {
+namespace vnaon_scenes {
 
-	class CViewContorller {
+	class view_controller {
 	protected:
 		CViewEngine *pViewEngine;
 
 	public:
-		CViewContorller();
-		~CViewContorller();
+		view_controller();
+		~view_controller();
 
 		//Main function.
 		bool Render();

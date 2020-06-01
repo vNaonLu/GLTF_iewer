@@ -4,7 +4,7 @@
 #include "FileManager.h"
 #include "_DEBUG_OBJECT.hpp"
 
-namespace vNaonCommon{
+namespace vnaon_common{
 
 	FileManager::CMemoryChunk::CMemoryChunk(Byte *pBin, std::size_t length)
 		:std::string(pBin, length){
