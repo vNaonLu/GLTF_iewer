@@ -1,7 +1,7 @@
 #pragma once
 #include <chrono>
 
-#include "GLdevice.h"
+#include "GLcontroller.h"
 
 namespace vnaon_scenes {
 
@@ -15,7 +15,7 @@ namespace vnaon_scenes {
 		SteadyTime mLastEngineTime;
 		double mFPS;
 
-		vNaonGL::GLdevice *pDevice;		
+		vnaon_gl::GLcontroller *pDevice;		
 
 	public:
 		CViewEngine();

@@ -1,4 +1,6 @@
-#include "EventContext.h"
+#include "common_context.h"
+
+
 
 namespace vnaon_common {
 	// ---
@@ -16,7 +18,8 @@ namespace vnaon_common {
 	void _i_event_task::process() {
 	}
 
-	// ---
+
+
 	_i_event_context::_i_event_context() {
 		_abort = false;
 		context_thread_p = new std::thread (&_i_event_context::process, this);

@@ -2,15 +2,21 @@
 #include <vector>
 #include <string>
 
+
+
 #include "Rect.h"
 #include "ViewController.h"
-#include "EventContext.h"
+#include "common_context.h"
+
+
 
 namespace vnaon_scenes {
-	/*
-	 * render_context
-	 * The context between the OpenGL and the controller.
-	 */
+
+
+
+	/// <summary>
+	/// The context between the OpenGL and the controller.
+	/// </summary>
 	class render_context : public vnaon_common::_i_event_context {
 	public:
 		static view_controller *controller_p;

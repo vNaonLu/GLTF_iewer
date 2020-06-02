@@ -21,17 +21,17 @@ namespace vnaon_scenes {
 		if ( pDevice == nullptr ) return;
 		calculateFPS();
 
-		pDevice->setClearColorBuffer(vNaonGL::GLcolor("#000000"));
+		pDevice->set_clean_color(vnaon_gl::GLcolor("#000000"));
 		pDevice->clear();
 
 	}
 
 	void CViewEngine::resizeViewer(const int &w, const int &h) {
-		pDevice->resizeViewport(w, h);
+		pDevice->adjust_viewport(w, h);
 	}
 
 	void CViewEngine::initialize() {
-		pDevice = new vNaonGL::GLdevice();
+		pDevice = new vnaon_gl::GLcontroller();
 	}
 
 	void CViewEngine::calculateFPS() {

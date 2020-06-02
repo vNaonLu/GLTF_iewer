@@ -1,30 +1,42 @@
 #pragma once
-#include "GLResource.h"
+#include "GLobject.h"
 
-namespace vNaonGL {
+namespace vnaon_gl {
 
-	class GLTexture : public GLresource{
+	class GLtexture;
+	typedef std::shared_ptr<GLtexture> p_texture;
+
+
+
+	/// <summary>
+	/// An Object of texture for OpenGL, and be used for GLcontroller.
+	/// </summary>
+	class GLtexture : public GLresource{
+
 	public:
+		/// <summary>
+		/// A samplar used for GLtexture.
+		/// </summary>
 		struct SAMPLAR {
-			GLint level;
+			GLint	level;
 			GLsizei width;
 			GLsizei height;
-			GLenum format;
-			GLenum type;
-			GLenum magFilter;
-			GLenum minFilter;
-			GLenum wrapS;
-			GLenum wrapT;
+			GLenum	format;
+			GLenum	type;
+			GLenum	mag_filter;
+			GLenum	min_filter;
+			GLenum	wrapS;
+			GLenum	wrapT;
 		};
 
 	protected:
-		SAMPLAR mSamplar;
+		SAMPLAR sampler;
 
 	public:
-		GLTexture(GLuint name, SAMPLAR samplar);
-		~GLTexture();
+		GLtexture(GLuint arg_name, SAMPLAR arg_samplar);
+		~GLtexture();
 
-		static pGLTexture create(GLuint name, SAMPLAR samplar);
+		static p_texture create(GLuint arg_name, SAMPLAR arg_samplar);
 
 	};
 

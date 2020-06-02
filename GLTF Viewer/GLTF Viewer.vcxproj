@@ -154,16 +154,16 @@
   <ItemGroup>
     <ClCompile Include="..\..\Include\glad\glad.c" />
     <ClCompile Include="main\main.cpp" />
-    <ClCompile Include="Viewer\EventContext.cpp" />
-    <ClCompile Include="Viewer\FileManager.cpp" />
+    <ClCompile Include="Viewer\common_context.cpp" />
+    <ClCompile Include="Viewer\file_manager.cpp" />
     <ClCompile Include="Viewer\Geometry.cpp" />
-    <ClCompile Include="Viewer\GLColor.cpp" />
-    <ClCompile Include="Viewer\GLDevice.cpp" />
-    <ClCompile Include="Viewer\GLResource.cpp" />
-    <ClCompile Include="Viewer\GLShaderProgram.cpp" />
-    <ClCompile Include="Viewer\GLTexture.cpp" />
-    <ClCompile Include="Viewer\GLVertexObject.cpp" />
-    <ClCompile Include="Viewer\Image.cpp" />
+    <ClCompile Include="Viewer\GLcolor.cpp" />
+    <ClCompile Include="Viewer\GLcontroller.cpp" />
+    <ClCompile Include="Viewer\GLobject.cpp" />
+    <ClCompile Include="Viewer\GLprogram.cpp" />
+    <ClCompile Include="Viewer\GLtexture.cpp" />
+    <ClCompile Include="Viewer\GLbuffer.cpp" />
+    <ClCompile Include="Viewer\bitmap_img.cpp" />
     <ClCompile Include="Viewer\Rect.cpp" />
     <ClCompile Include="Viewer\Vector.cpp" />
     <ClCompile Include="Viewer\ViewContext.cpp" />
@@ -172,18 +172,18 @@
     <ClCompile Include="Viewer\_DEBUG_OBJECT.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Viewer\FileManager.h" />
+    <ClInclude Include="Viewer\file_manager.h" />
     <ClInclude Include="Viewer\Geometry.h" />
-    <ClInclude Include="Viewer\GLColor.h" />
-    <ClInclude Include="Viewer\GLDevice.h" />
-    <ClInclude Include="Viewer\GLResource.h" />
-    <ClInclude Include="Viewer\GLShaderProgram.h" />
-    <ClInclude Include="Viewer\GLTexture.h" />
-    <ClInclude Include="Viewer\GLTFObject.h" />
-    <ClInclude Include="Viewer\GLVertexObject.h" />
-    <ClInclude Include="Viewer\Image.h" />
+    <ClInclude Include="Viewer\GLcolor.h" />
+    <ClInclude Include="Viewer\GLcontroller.h" />
+    <ClInclude Include="Viewer\GLobject.h" />
+    <ClInclude Include="Viewer\GLprogram.h" />
+    <ClInclude Include="Viewer\GLtexture.h" />
+    <ClInclude Include="Viewer\GLTFobject.h" />
+    <ClInclude Include="Viewer\GLbuffer.h" />
+    <ClInclude Include="Viewer\bitmap_img.h" />
     <ClInclude Include="Viewer\Rect.h" />
-    <ClInclude Include="Viewer\EventContext.h" />
+    <ClInclude Include="Viewer\common_context.h" />
     <ClInclude Include="Viewer\Vector.h" />
     <ClInclude Include="Viewer\ViewContext.h" />
     <ClInclude Include="Viewer\ViewController.h" />

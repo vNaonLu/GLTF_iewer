@@ -1,17 +1,17 @@
-#include "GLTexture.h"
+#include "GLtexture.h"
 
-namespace vNaonGL {
+namespace vnaon_gl {
 
-	GLTexture::GLTexture(GLuint name, SAMPLAR samplar)
-		: GLresource(name){
-		mSamplar = samplar;
+	GLtexture::GLtexture(GLuint arg_name, SAMPLAR arg_samplar)
+		: GLresource(arg_name){
+		sampler = arg_samplar;
 	}
 
-	GLTexture::~GLTexture() {
+	GLtexture::~GLtexture() {
 	}
 
-	pGLTexture GLTexture::create(GLuint name, SAMPLAR samplar) {
-		return std::make_shared<GLTexture>(name, samplar);
+	p_texture GLtexture::create(GLuint arg_name, SAMPLAR arg_samplar) {
+		return std::make_shared<GLtexture>(arg_name, arg_samplar);
 	}
 
 }
