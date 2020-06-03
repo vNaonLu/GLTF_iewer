@@ -15,12 +15,12 @@ namespace vnaon_scenes {
 		~view_controller();
 
 		//Main function.
-		bool Render();
+		bool render();
 
 		void close();
 
 	public:
-		void resizeViewer(const int &w, const int &h);
+		void adjust_viewer(const int &w, const int &h);
 
 	};
 

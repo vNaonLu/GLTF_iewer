@@ -134,11 +134,11 @@ namespace vnaon_gl {
 	private:
 		p_texture _create_empty_texture() const;
 
-		bool _compile_shader(GLuint arg_handle, GLchar *arg_src, GLint arg_len, std::string &arg_msg) const;
+		bool _compile_shader(GLuint arg_handle, const GLchar *arg_src, GLint arg_len, std::string &arg_msg) const;
 
 		void _init();
 
-	private:
+	public:
 		//Used for debug error.
 		static bool __getRenderError(const std::string &who);
 		static void __resetErrorMessage();

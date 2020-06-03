@@ -11,27 +11,26 @@ namespace vnaon_scenes {
 	class CViewEngine {
 
 	private:
-		typedef std::chrono::steady_clock::time_point SteadyTime;
-		SteadyTime mLastEngineTime;
-		double mFPS;
+		typedef std::chrono::system_clock clock;
+		clock::time_point _last_engine_time;
+		double _fps;
 
-		vnaon_gl::GLcontroller *pDevice;		
+		vnaon_gl::GLcontroller *_p_glcontroller;
+		vnaon_gl::p_program test_program;
 
 	public:
 		CViewEngine();
 		~CViewEngine();
 
 		//Main Function.
-		void Draw();
+		void draw();
 
-		double getFramePerSecond() const;
+		void adjust_viewport(const int &w, const int &h);
 
-		void resizeViewer(const int &w, const int &h);
+	private:
+		void _init();
 
-	protected:
-		void initialize();
-
-		void calculateFPS();
+		void _clac_fps();
 
 	};
 

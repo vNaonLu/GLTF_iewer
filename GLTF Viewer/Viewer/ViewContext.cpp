@@ -27,7 +27,7 @@ namespace vnaon_scenes {
 
 		set_swap_interval(1);
 		while ( alive() ) {
-			render_context::controller_p->Render();
+			render_context::controller_p->render();
 			swap_buffer();
 		}
 	}
@@ -91,6 +91,6 @@ namespace vnaon_scenes {
 		}
 	}
 	void render_context::onResize(GLFWwindow *window, int width, int height) {
-		render_context::controller_p->resizeViewer(width, height);
+		render_context::controller_p->adjust_viewer(width, height);
 	}
 }

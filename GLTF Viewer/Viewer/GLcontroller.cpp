@@ -152,41 +152,35 @@ namespace vnaon_gl {
 		bool ret = false;
 
 		if ( p_arg_dest->ready_to_compile() ) {					
-			bool vSuccess, fSuccess;
-			GLuint hVertex = glCreateShader(GL_VERTEX_SHADER);
+			bool is_compiled_vert, is_compiled_frag;
+			GLuint h_vert = glCreateShader(GL_VERTEX_SHADER);
 			__getRenderError("glCreateShader");
-			GLuint hFragment = glCreateShader(GL_FRAGMENT_SHADER);
+			GLuint h_frag = glCreateShader(GL_FRAGMENT_SHADER);
 			__getRenderError("glCreateShader");
 			
 			// vertex
 			std::string reason;
-			GLchar *vertexSrc = nullptr;
-			GLint vertexLength = 0;
-			p_arg_dest->cpy_vert_shd_src(vertexSrc, vertexLength);
-			vSuccess = _compile_shader(hVertex, vertexSrc, vertexLength, reason);
-			if ( vSuccess )
-				DEBUGConsole::log({ p_arg_dest->get_program_name() + "failed to compile vertex shader. Reason:\n" + reason });
-			delete[] vertexSrc;
+			auto vert_src = p_arg_dest->get_vert_shd_src();
+			is_compiled_vert = _compile_shader(h_vert, vert_src.c_str(), vert_src.size(), reason);
+			if ( !is_compiled_vert )
+				DEBUGConsole::log({"Failed to compile vertex shader: " + p_arg_dest->get_program_name() + ". Reason:\n" + reason });
 
 			// fragment
 			reason.clear();
-			std::vector<GLchar *> fragmentSrc;
-			std::vector<GLint> fragmentLength;
-			p_arg_dest->cpy_frag_shd_src(fragmentSrc, fragmentLength);
-			fSuccess = _compile_shader(hFragment, fragmentSrc[0], fragmentLength[0], reason);
-			if ( fSuccess )
-				DEBUGConsole::log({ p_arg_dest->get_program_name() + "failed to compile fragment shader. Reason:\n" + reason });
-			for ( auto *src : fragmentSrc ) delete[] src;
+			auto frag_src = p_arg_dest->get_frag_shd_src();
+			is_compiled_frag = _compile_shader(h_frag, frag_src.c_str(), frag_src.size(), reason);
+			if ( !is_compiled_frag )
+				DEBUGConsole::log({"Failed to compile fragment shader: "+ p_arg_dest->get_program_name() + ". Reason:\n" + reason });
 
-			if ( vSuccess && fSuccess ) {
+			if ( is_compiled_vert && is_compiled_frag ) {
 				GLuint hProgram;
 				hProgram = glCreateProgram();
 				__getRenderError("glCreateShader");
 
-				glAttachShader(hProgram, hVertex);
+				glAttachShader(hProgram, h_vert);
 				__getRenderError("glAttachShader");
-
-				glAttachShader(hProgram, hFragment);
+				
+				glAttachShader(hProgram, h_frag);
 				__getRenderError("glAttachShader");
 
 				glLinkProgram(hProgram);
@@ -196,7 +190,7 @@ namespace vnaon_gl {
 				GLchar infoLog[512];
 				glGetProgramiv(hProgram, GL_LINK_STATUS, &success);
 				if ( !success ) {
-					DEBUGConsole::log({ p_arg_dest->get_program_name() + "failed to link program. Reason:\n" + infoLog });
+					DEBUGConsole::log({ "Failed to link program: " + p_arg_dest->get_program_name() + ". Reason:\n" + infoLog });
 					glDeleteProgram(hProgram);
 					__getRenderError("glDeleteProgram");
 
@@ -211,9 +205,9 @@ namespace vnaon_gl {
 
 			}
 
-			glDeleteShader(hVertex);
+			glDeleteShader(h_vert);
 			__getRenderError("glDeleteShader");
-			glDeleteShader(hFragment);
+			glDeleteShader(h_frag);
 			__getRenderError("glDeleteShader");
 		}
 
@@ -289,9 +283,8 @@ namespace vnaon_gl {
 		return GLtexture::create(hTex, samplar);
 	}
 
-	bool GLcontroller::_compile_shader(GLuint arg_handle, GLchar *arg_src, GLint arg_len, std::string &arg_msg) const {
-		GLint success;
-		GLchar infoLog[512];
+	bool GLcontroller::_compile_shader(GLuint arg_handle, const GLchar *arg_src, GLint arg_len, std::string &arg_msg) const {
+		GLint is_compiled;
 
 		glShaderSource(arg_handle, 1, &arg_src, &arg_len);
 		__getRenderError("glShaderSource");
@@ -299,10 +292,16 @@ namespace vnaon_gl {
 		glCompileShader(arg_handle);
 		__getRenderError("glCompileShader");
 
-		glGetShaderiv(arg_handle, GL_COMPILE_STATUS, &success);
+		glGetShaderiv(arg_handle, GL_COMPILE_STATUS, &is_compiled);
 		__getRenderError("glGetShaderiv");
-		if ( !success ) {
-			arg_msg = infoLog;
+		if ( is_compiled == GL_FALSE ) {
+			GLint max_length = 0;
+			glGetShaderiv(arg_handle, GL_INFO_LOG_LENGTH, &max_length);
+			__getRenderError("glGetShaderiv");
+			std::vector<GLchar> err_log(max_length);
+			glGetShaderInfoLog(arg_handle, max_length, &max_length, &err_log[0]);
+			__getRenderError("glGetShaderiv");
+			arg_msg = err_log.data();
 			return false;
 		} else {
 			return true;

@@ -15,11 +15,11 @@ namespace vnaon_common {
 
 	public:
 		typedef char Byte;
-		class CMemoryChunk : std::string{
+		class memory_chunk : std::string{
 		public:
-			CMemoryChunk(Byte *p_arg_bin, std::size_t arg_length);
-			CMemoryChunk(std::string p_arg_bin);
-			~CMemoryChunk();
+			memory_chunk(Byte *p_arg_bin, std::size_t arg_length);
+			memory_chunk(std::string p_arg_bin);
+			~memory_chunk();
 
 			/// <summary>
 			/// Specifies a length of buffer in byte.
@@ -32,11 +32,11 @@ namespace vnaon_common {
 			const char *get_buffer() const;
 
 		};
-		typedef std::shared_ptr<CMemoryChunk> MemoryChunk;
+		typedef std::shared_ptr<memory_chunk> p_memory_chunk;
 
 	public:
 
-		static MemoryChunk get_binary(const std::string &arg_pth);
+		static p_memory_chunk get_binary(const std::string &arg_pth);
 
 	};
 

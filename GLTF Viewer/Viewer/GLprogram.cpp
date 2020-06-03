@@ -1,3 +1,6 @@
+#include <algorithm>
+
+#include "GLcontroller.h"
 #include "GLprogram.h"
 #include "file_manager.h"
 
@@ -46,7 +49,7 @@ namespace vnaon_gl {
 		auto arg_src = vnaon_common::file_manager::get_binary(arg_path);
 
 		if ( arg_src != nullptr ) {
-			_frag_shd_srcs.push_back(arg_src->get_buffer());
+			_frag_shd_srcs = arg_src->get_buffer();
 			return true;
 		} else {
 			return false;
@@ -62,30 +65,57 @@ namespace vnaon_gl {
 	}
 
 	bool GLshaderprogram::ready_to_compile() const {
-		return _vert_shd_src != "" && _frag_shd_srcs.size() > 0;
+		return _vert_shd_src != "" && _frag_shd_srcs != "";
 	}
 
 	void GLshaderprogram::set_profile(GLuint arg_name) {
 		_valid = true;
 		set_handle(arg_name);
+		_collect_attribs();
+		_collect_unifors();
 	}
 
-	void GLshaderprogram::cpy_vert_shd_src(GLchar *p_arg_out, GLsizei &arg_len) const {
-		arg_len = (GLint) _vert_shd_src.size();
-		p_arg_out = new GLchar[arg_len];
-		for ( int i = 0; i < arg_len; i++ ) p_arg_out[i] = _vert_shd_src[i];
+	std::string GLshaderprogram::get_vert_shd_src() const {
+		return _vert_shd_src;
 	}
 
-	void GLshaderprogram::cpy_frag_shd_src(std::vector<GLchar *> &p_arg_out, std::vector<GLsizei> &arg_len) const {
-		auto shaderLengthes = _frag_shd_srcs.size();
-		p_arg_out.resize(shaderLengthes);
-		arg_len.resize(shaderLengthes);
+	std::string GLshaderprogram::get_frag_shd_src() const {
+		return _frag_shd_srcs;
+	}
 
-		for ( int i = 0; i < shaderLengthes; i++ ) {
-			auto &src = p_arg_out[i];
-			arg_len[i] = (GLint) _vert_shd_src.size();
-			src = new GLchar[arg_len[i]];
-			for ( int j = 0; j < arg_len[i]; j++ ) src[j] = _vert_shd_src[j];
+	void GLshaderprogram::_collect_attribs() {
+		const GLuint handle = get_handle();
+		GLint active_attrib_length;
+		glGetProgramiv(handle, GL_ACTIVE_ATTRIBUTES, &active_attrib_length);
+		GLcontroller::__getRenderError("glGetProgramiv");
+
+		for ( int i = 0; i < active_attrib_length; i++ ) {
+			GLsizei char_len;
+			GLint att_len;
+			GLenum type;
+			GLchar name[GLshaderprogram::MAX_NAME_LEN];
+			glGetActiveAttrib(handle, (GLuint) i, GLshaderprogram::MAX_NAME_LEN, &char_len, &att_len, &type, name);
+			GLcontroller::__getRenderError("glGetActiveAttrib");
+
+			_attribs_info[name] = GLshaderprogram::_ARG_PROP{ (GLuint) i, att_len, type };
+		}
+	}
+
+	void GLshaderprogram::_collect_unifors() {
+		const GLuint handle = get_handle();
+		GLint active_uniform_length;
+		glGetProgramiv(handle, GL_ACTIVE_UNIFORMS, &active_uniform_length);
+		GLcontroller::__getRenderError("glGetProgramiv");
+
+		for ( int i = 0; i < active_uniform_length; i++ ) {
+			GLsizei char_len;
+			GLint uni_len;
+			GLenum type;
+			GLchar name[GLshaderprogram::MAX_NAME_LEN];
+			glGetActiveUniform(handle, (GLuint) i, GLshaderprogram::MAX_NAME_LEN, &char_len, &uni_len, &type, name);
+			GLcontroller::__getRenderError("glGetActiveUniform");
+
+			_unifors_info[name] = GLshaderprogram::_ARG_PROP{ (GLuint) i, uni_len, type };
 		}
 	}
 

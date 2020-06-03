@@ -10,40 +10,37 @@
 
 namespace vnaon_common{
 
-	file_manager::CMemoryChunk::CMemoryChunk(Byte *p_arg_bin, std::size_t arg_length)
+	file_manager::memory_chunk::memory_chunk(Byte *p_arg_bin, std::size_t arg_length)
 		:std::string(p_arg_bin, arg_length){
 	}
 
-	file_manager::CMemoryChunk::CMemoryChunk(std::string p_arg_bin)
+	file_manager::memory_chunk::memory_chunk(std::string p_arg_bin)
 		: std::string(p_arg_bin){
 	}
 
-	file_manager::CMemoryChunk::~CMemoryChunk() {
+	file_manager::memory_chunk::~memory_chunk() {
 	}
 
-	std::size_t file_manager::CMemoryChunk::get_size() const {
+	std::size_t file_manager::memory_chunk::get_size() const {
 		return size();
 	}
 
-	const char *file_manager::CMemoryChunk::get_buffer() const {
+	const char *file_manager::memory_chunk::get_buffer() const {
 		return c_str();
 	}
 
-	file_manager::MemoryChunk file_manager::get_binary(const std::string &arg_path) {
+	file_manager::p_memory_chunk file_manager::get_binary(const std::string &arg_path) {
 		using namespace std;
-		MemoryChunk ret = nullptr;
-		ifstream file;
-		file.exceptions(ifstream::failbit | ifstream::badbit);
+		p_memory_chunk ret = nullptr;
+		ifstream file(arg_path.c_str());
 
-		try {
-			file.open(arg_path.c_str(), ios::out);
+		if ( file.is_open() ) {
 			stringstream text;
 			text << file.rdbuf();
 			file.close();
-
-			ret = make_shared<CMemoryChunk>(text.str());
-		} catch ( ifstream::failure e ) {
-			DEBUGConsole::log({ e.what() });
+			ret = make_shared<memory_chunk>(text.str());
+		} else {
+			DEBUGConsole::log({ "Failed to open the file: " + arg_path });
 		}
 
 		return ret;

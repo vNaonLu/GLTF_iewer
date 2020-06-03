@@ -2,6 +2,7 @@
 #include "GLobject.h"
 #include <vector>
 #include <string>
+#include <map>
 
 
 
@@ -18,15 +19,26 @@ namespace vnaon_gl {
 	class GLshaderprogram : public GLresource {
 		
 	private:
+		const static GLsizei MAX_NAME_LEN = 100;
+		struct _ARG_PROP {
+			GLuint location;
+			GLint size;
+			GLenum type;
+		};
 		GLboolean _valid;
 		std::string _program_name;
 		std::string _vert_shd_src;
-		std::vector<std::string> _frag_shd_srcs;
+		std::string _frag_shd_srcs;
+		std::map<std::string, _ARG_PROP> _attribs_info;
+		std::map<std::string, _ARG_PROP> _unifors_info;
 
 	public:
 		GLshaderprogram(GLuint arg_handle, const std::string &arg_name );
 		~GLshaderprogram();
 
+		/// <summary>
+		/// Generate a shared pointer of the shader program.
+		/// </summary>
 		static p_program create(GLuint arg_handle, const std::string &arg_name);
 
 		/// <summary>
@@ -80,18 +92,25 @@ namespace vnaon_gl {
 		void set_profile(GLuint arg_name);
 
 		/// <summary>
-		/// Copy the text of the vertex shader.
+		/// Specifies the text of the vertex shader.
 		/// </summary>
-		/// <param name="p_arg_out"> Specifies an output for the text. NOTE: Should be delete.</param>
-		/// <param name="arg_len"> Specifies a length of vertex shader.</param>
-		void cpy_vert_shd_src(GLchar *p_arg_out, GLsizei &arg_len) const;
+		std::string get_vert_shd_src() const;
 
 		/// <summary>
-		/// Copy the text of the fragment shader.
+		/// Specifies the text of the fragment shader.
 		/// </summary>
-		/// <param name="p_arg_out"> Specifies an output for the text. NOTE: Should be delete.</param>
-		/// <param name="arg_len"> Specifies a length of fragment shader.</param>
-		void cpy_frag_shd_src(std::vector<GLchar *> &p_arg_out, std::vector<GLsizei> &arg_len) const;
+		std::string get_frag_shd_src() const;
+
+	private:
+		/// <summary>
+		/// Collect the activw attribute in the shader program.
+		/// </summary>
+		void _collect_attribs();
+		
+		/// <summary>
+		/// Collect the active uniforms in the shader program.
+		/// </summary>
+		void _collect_unifors();
 
 		friend class GLcontroller;
 	};

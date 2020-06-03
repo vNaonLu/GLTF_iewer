@@ -5,45 +5,53 @@
 namespace vnaon_scenes {
 
 	CViewEngine::CViewEngine() {
-		mLastEngineTime = std::chrono::steady_clock::now();
-		mFPS = 0.0;
-		pDevice = nullptr;
+		_last_engine_time = clock::now();
+		_fps = 0.0;
+		_p_glcontroller = nullptr;
+		test_program = nullptr;
 
-		initialize();
+		_init();
 	}
 
 	CViewEngine::~CViewEngine() {
-		if ( pDevice != nullptr ) delete pDevice;
+		if ( _p_glcontroller != nullptr ) delete _p_glcontroller;
 	}
 
-	void CViewEngine::Draw() {
+	void CViewEngine::draw() {
 
-		if ( pDevice == nullptr ) return;
-		calculateFPS();
+		if ( _p_glcontroller == nullptr ) return;
+		_clac_fps();
 
-		pDevice->set_clean_color(vnaon_gl::GLcolor("#000000"));
-		pDevice->clear();
+		_p_glcontroller->set_clean_color(vnaon_gl::GLcolor("#000000"));
+		_p_glcontroller->clear();
+
+		if ( test_program == nullptr ) {
+			test_program = _p_glcontroller->create_shader_program("Test_Shader");
+			test_program->attach_vertex_shader_from_file(R"(glsl\sample.vs)");
+			test_program->attach_fragment_shader_from_file(R"(glsl\sample.fs)");
+			_p_glcontroller->compile_program(test_program);
+		}
 
 	}
 
-	void CViewEngine::resizeViewer(const int &w, const int &h) {
-		pDevice->adjust_viewport(w, h);
+	void CViewEngine::adjust_viewport(const int &w, const int &h) {
+		_p_glcontroller->adjust_viewport(w, h);
 	}
 
-	void CViewEngine::initialize() {
-		pDevice = new vnaon_gl::GLcontroller();
+	void CViewEngine::_init() {
+		_p_glcontroller = new vnaon_gl::GLcontroller();
 	}
 
-	void CViewEngine::calculateFPS() {
+	void CViewEngine::_clac_fps() {
 		using namespace std;
 		using namespace std::chrono;
-		SteadyTime nowTimePoint = steady_clock::now();
-		double timeLag = duration<double, milli>(nowTimePoint - mLastEngineTime).count();		
-		mLastEngineTime = nowTimePoint;
+		clock::time_point nowTimePoint = clock::now();
+		double timeLag = duration<double, milli>(nowTimePoint - _last_engine_time).count();
+		_last_engine_time = nowTimePoint;
 
-		mFPS = 1000.0 / timeLag;
+		_fps = 1000.0 / timeLag;
 
-		//DEBUGConsole::log({ mFPS });
+		//DEBUGConsole::log({ _fps });
 	}
 
 }

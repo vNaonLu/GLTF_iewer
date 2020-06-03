@@ -9,8 +9,8 @@ namespace vnaon_scenes {
 	view_controller::~view_controller() {
 	}
 
-	bool view_controller::Render() {
-		pViewEngine->Draw();
+	bool view_controller::render() {
+		pViewEngine->draw();
 		return true;
 	}
 
@@ -18,8 +18,8 @@ namespace vnaon_scenes {
 		if ( pViewEngine != nullptr ) delete pViewEngine;
 	}
 
-	void view_controller::resizeViewer(const int &w, const int &h) {
-		pViewEngine->resizeViewer(w, h);
+	void view_controller::adjust_viewer(const int &w, const int &h) {
+		pViewEngine->adjust_viewport(w, h);
 	}
 
 }
