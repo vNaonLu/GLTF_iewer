@@ -11,6 +11,7 @@ namespace vnaon_gl {
 		_cln_cor = GLcolor(0.0, 0.0, 0.0, 1.0);
 		_p_bnd_vert_arr = nullptr;
 		_p_bnd_prog = nullptr;
+		_p_bnd_skybox = nullptr;
 	}
 
 	GLcontroller::~GLcontroller() {
@@ -36,6 +37,16 @@ namespace vnaon_gl {
 	void GLcontroller::adjust_viewport(const GLsizei &arg_width, const GLsizei &arg_height) {
 		glViewport(0, 0, arg_width, arg_height);
 		__getRenderError("glViewport");
+	}
+
+	void GLcontroller::disable_depth_Mask() {
+		glDepthMask(GL_FALSE);
+		__getRenderError("glDepthMask");
+	}
+
+	void GLcontroller::enable_depth_Mask() {
+		glDepthMask(GL_TRUE);
+		__getRenderError("glDepthMask");
 	}
 
 	p_vertex_buf GLcontroller::create_vertex_buffer(GLenum arg_usage, const void *p_arg_data, GLsizeiptr arg_len) const {
@@ -99,10 +110,11 @@ namespace vnaon_gl {
 	}
 
 	void GLcontroller::bind_vertex_array(p_vertex_arr p_arg_dest) {
-		_p_bnd_vert_arr = p_arg_dest;
-
-		glBindVertexArray(p_arg_dest->get_handle());
-		__getRenderError("glBindVertexArray");
+		if ( p_arg_dest->is_valid() ) {
+			_p_bnd_vert_arr = p_arg_dest;
+			glBindVertexArray(p_arg_dest->get_handle());
+			__getRenderError("glBindVertexArray");
+		}
 	}
 
 	void GLcontroller::unbind_vertex_array() {
@@ -161,14 +173,14 @@ namespace vnaon_gl {
 			// vertex
 			std::string reason;
 			auto vert_src = p_arg_dest->get_vert_shd_src();
-			is_compiled_vert = _compile_shader(h_vert, vert_src.c_str(), vert_src.size(), reason);
+			is_compiled_vert = _compile_shader(h_vert, vert_src.c_str(), (GLint) vert_src.size(), reason);
 			if ( !is_compiled_vert )
 				DEBUGConsole::log({"Failed to compile vertex shader: " + p_arg_dest->get_program_name() + ". Reason:\n" + reason });
 
 			// fragment
 			reason.clear();
 			auto frag_src = p_arg_dest->get_frag_shd_src();
-			is_compiled_frag = _compile_shader(h_frag, frag_src.c_str(), frag_src.size(), reason);
+			is_compiled_frag = _compile_shader(h_frag, frag_src.c_str(), (GLint) frag_src.size(), reason);
 			if ( !is_compiled_frag )
 				DEBUGConsole::log({"Failed to compile fragment shader: "+ p_arg_dest->get_program_name() + ". Reason:\n" + reason });
 
@@ -215,9 +227,11 @@ namespace vnaon_gl {
 	}
 
 	bool GLcontroller::use_program(p_program p_arg_dest) {
-		_p_bnd_prog = p_arg_dest;
-		glUseProgram(_p_bnd_prog->get_handle());
-		return __getRenderError("glUseProgram");
+		if ( p_arg_dest->is_valid() ) {
+			_p_bnd_prog = p_arg_dest;
+			glUseProgram(_p_bnd_prog->get_handle());
+			return __getRenderError("glUseProgram");
+		}
 	}
 
 	p_texture GLcontroller::create_texture_from_file(const std::string &path, GLtexture::SAMPLAR samplar) const{
@@ -260,11 +274,35 @@ namespace vnaon_gl {
 			glBindTexture(GL_TEXTURE_2D, _p_ept_tex->get_handle());
 			success |= __getRenderError("glBindTexture");
 
-			if ( success )
+			if ( success ) {
 				ret = GLtexture::create(hTex, samplar);
+				ret->_attach_destory_func([](GLuint *arg_name) {
+					glDeleteTextures(1, arg_name);
+					}
+				);
+			}
 
 		}
 		return ret;
+	}
+
+	p_skybox GLcontroller::create_skybox_from_file(const std::vector<std::string> &arg_img_sources) const {
+		p_skybox p_skybox_object = GLskybox::create(0, arg_img_sources);
+		p_skybox_object = p_skybox_object->is_valid() ? p_skybox_object : nullptr;
+		return p_skybox_object;
+	}
+
+	void GLcontroller::bind_skybox_object(p_skybox arg_skybox) {
+		if ( arg_skybox->is_valid() ) {
+			_p_bnd_skybox = arg_skybox;
+			glBindTexture(GL_TEXTURE_CUBE_MAP, _p_bnd_skybox->get_handle());
+			__getRenderError("glBindTexture");
+		}
+	}
+
+	void GLcontroller::draw_array(GLenum arg_mode, GLint arg_first, GLsizei arg_count) {
+		glDrawArrays(arg_mode, arg_first, arg_count);
+		__getRenderError("glDrawArrays");
 	}
 
 	p_texture GLcontroller::_create_empty_texture() const {

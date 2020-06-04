@@ -2,13 +2,13 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "ViewEngine.h"
+#include "scenes_engine.h"
 
 namespace vnaon_scenes {
 
 	class view_controller {
 	protected:
-		CViewEngine *pViewEngine;
+		scenes_engine *pViewEngine;
 
 	public:
 		view_controller();

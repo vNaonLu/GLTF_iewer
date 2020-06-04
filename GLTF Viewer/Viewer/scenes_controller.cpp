@@ -1,9 +1,9 @@
-#include "ViewController.h"
+#include "scenes_controller.h"
 
 namespace vnaon_scenes {
 
 	view_controller::view_controller() {
-		pViewEngine = new CViewEngine();
+		pViewEngine = new scenes_engine();
 	}
 
 	view_controller::~view_controller() {

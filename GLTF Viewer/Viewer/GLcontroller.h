@@ -1,17 +1,21 @@
 #pragma once
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <vector>
 #include <string>
 
 
 
 #include "Rect.h"
-#include "GLcolor.h"
 #include "GLobject.h"
+#include "GLcolor.h"
 #include "GLtexture.h"
 #include "GLprogram.h"
 #include "GLbuffer.h"
+#include "GLskybox.h"
 
 
 
@@ -30,6 +34,7 @@ namespace vnaon_gl {
 
 		p_vertex_arr _p_bnd_vert_arr;
 		p_program _p_bnd_prog;
+		p_skybox _p_bnd_skybox;
 
 	public:
 		GLcontroller();
@@ -53,6 +58,8 @@ namespace vnaon_gl {
 		/// <param name="HEIGHT">(GLsizei) Specify the height of the viewport.</param>
 		void adjust_viewport(const GLsizei &WIDTH, const GLsizei &HEIGHT);
 
+		void disable_depth_Mask();
+		void enable_depth_Mask();
 
 
 		/// <summary>
@@ -111,7 +118,6 @@ namespace vnaon_gl {
 		/// <returns></returns>
 		bool use_program(p_program PROGRAM);
 
-
 		/// <summary>
 		/// Create and initialize a texture with local loacation of the file.
 		/// </summary>
@@ -130,6 +136,15 @@ namespace vnaon_gl {
 			}
 		) const;
 
+		/// <summary>
+		/// Create a skybox texture object.
+		/// </summary>
+		/// <param name="IAMGE_SOURCES"> The loaction of the image source, in ordered of right, left, top, bottom, back and front.</param>
+		p_skybox create_skybox_from_file(const std::vector<std::string> &IAMGE_SOURCES) const;
+		void bind_skybox_object(p_skybox DEST);
+
+
+		void draw_array(GLenum arg_mode, GLint arg_first, GLsizei arg_count);
 
 	private:
 		p_texture _create_empty_texture() const;

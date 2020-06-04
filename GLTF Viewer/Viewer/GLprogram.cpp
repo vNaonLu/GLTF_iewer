@@ -10,7 +10,7 @@ namespace vnaon_gl {
 
 	GLshaderprogram::GLshaderprogram(GLuint arg_handle, const std::string &arg_name)
 		: GLresource(arg_handle) {
-		_valid = false;
+		valid = false;
 		_program_name = arg_name;
 		_vert_shd_src = "";
 		_frag_shd_srcs.clear();
@@ -55,10 +55,6 @@ namespace vnaon_gl {
 		}
 	}
 
-	bool GLshaderprogram::is_valid() const {
-		return _valid;
-	}
-
 	std::string GLshaderprogram::get_program_name() const {
 		return _program_name;
 	}
@@ -68,7 +64,7 @@ namespace vnaon_gl {
 	}
 
 	void GLshaderprogram::set_profile(GLuint arg_name) {
-		_valid = true;
+		valid = true;
 		set_handle(arg_name);
 		_collect_attribs();
 		_collect_unifors();

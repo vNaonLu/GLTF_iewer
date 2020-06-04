@@ -25,11 +25,11 @@ namespace vnaon_gl {
 			GLint size;
 			GLenum type;
 		};
-		GLboolean _valid;
 		std::string _program_name;
 		std::string _vert_shd_src;
 		std::string _frag_shd_srcs;
 		std::map<std::string, _ARG_PROP> _attribs_info;
+	public:
 		std::map<std::string, _ARG_PROP> _unifors_info;
 
 	public:
@@ -70,16 +70,12 @@ namespace vnaon_gl {
 		bool attach_fragment_shader_from_file(const std::string &arg_path);
 
 		/// <summary>
-		/// Specifies the object is valid or invalid.
-		/// </summary>
-		bool is_valid() const;
-
-		/// <summary>
 		/// Specifies the name of program.
 		/// </summary>
 		std::string get_program_name() const;
 
 	protected:
+
 		/// <summary>
 		/// Specifies the object is ready to compile or not.
 		/// </summary>

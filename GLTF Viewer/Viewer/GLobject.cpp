@@ -5,6 +5,7 @@ namespace vnaon_gl {
 	GLresource::GLresource(GLuint arg_handle) {
 		destroy_function = nullptr;
 		_name_h = arg_handle;
+		valid = true;
 	}
 
 	GLresource::~GLresource() {
@@ -13,6 +14,10 @@ namespace vnaon_gl {
 
 	GLuint GLresource::get_handle() const {
 		return _name_h;
+	}
+
+	bool GLresource::is_valid() const {
+		return valid;
 	}
 
 	void GLresource::set_handle(GLuint arg_handle) {

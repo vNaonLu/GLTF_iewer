@@ -30,7 +30,7 @@ namespace vnaon_gl {
 		};
 
 	protected:
-		SAMPLAR sampler;
+		SAMPLAR samplar;
 
 	public:
 		GLtexture(GLuint arg_name, SAMPLAR arg_samplar);

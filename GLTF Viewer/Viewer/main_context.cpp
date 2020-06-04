@@ -2,7 +2,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "ViewContext.h"
+#include "main_context.h"
 #include "Rect.h"
 
 namespace vnaon_scenes {
@@ -77,6 +77,7 @@ namespace vnaon_scenes {
 	bool render_context::init() {
 		render_context::controller_p = new vnaon_scenes::view_controller();
 		create_window();
+		attach_event();
 		init_window();
 
 		bool ret = true;

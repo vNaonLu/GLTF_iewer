@@ -24,9 +24,12 @@ namespace vnaon_gl {
 		GLuint _name_h;
 		d_destroy_func destroy_function;
 
+	protected:
+		bool valid;
+
 	public:
 		GLresource(GLuint arg_handle);
-		~GLresource();
+		virtual ~GLresource();
 
 		/// <summary>
 		/// Get the handle object of the OpenGL's resource.
@@ -34,10 +37,11 @@ namespace vnaon_gl {
 		/// <returns>(GLint) The handle of OpenGL's object.</returns>
 		GLuint get_handle() const;
 
-	protected:
-		void set_handle(GLuint arg_handle);
 
-	private:
+	protected:
+		virtual bool is_valid() const;
+
+		void set_handle(GLuint arg_handle);
 		/// <summary>
 		/// Attach a function to OpenGL's resource, which will be called when the destruction of the object.
 		/// </summary>

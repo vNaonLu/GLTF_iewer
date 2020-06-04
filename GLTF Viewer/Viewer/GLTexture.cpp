@@ -1,10 +1,13 @@
 #include "GLtexture.h"
+#include "GLcontroller.h"
+
+
 
 namespace vnaon_gl {
 
 	GLtexture::GLtexture(GLuint arg_name, SAMPLAR arg_samplar)
 		: GLresource(arg_name){
-		sampler = arg_samplar;
+		samplar = arg_samplar;
 	}
 
 	GLtexture::~GLtexture() {

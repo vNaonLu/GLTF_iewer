@@ -54,17 +54,8 @@
     <ClCompile Include="Viewer\Rect.cpp">
       <Filter>資源檔\common\geometry</Filter>
     </ClCompile>
-    <ClCompile Include="Viewer\ViewContext.cpp">
-      <Filter>資源檔</Filter>
-    </ClCompile>
     <ClCompile Include="Viewer\_DEBUG_OBJECT.hpp">
       <Filter>標頭檔</Filter>
-    </ClCompile>
-    <ClCompile Include="Viewer\ViewEngine.cpp">
-      <Filter>資源檔\scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Viewer\ViewController.cpp">
-      <Filter>資源檔\scenes</Filter>
     </ClCompile>
     <ClCompile Include="Viewer\GLcontroller.cpp">
       <Filter>資源檔\opengl</Filter>
@@ -93,6 +84,18 @@
     <ClCompile Include="Viewer\bitmap_img.cpp">
       <Filter>資源檔\common</Filter>
     </ClCompile>
+    <ClCompile Include="Viewer\GLskybox.cpp">
+      <Filter>資源檔\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\scenes_engine.cpp">
+      <Filter>資源檔\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\scenes_controller.cpp">
+      <Filter>資源檔\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\main_context.cpp">
+      <Filter>資源檔</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Viewer\Geometry.h">
@@ -103,15 +106,6 @@
     </ClInclude>
     <ClInclude Include="Viewer\Rect.h">
       <Filter>標頭檔\common\geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Viewer\ViewContext.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
-    <ClInclude Include="Viewer\ViewEngine.h">
-      <Filter>標頭檔\scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Viewer\ViewController.h">
-      <Filter>標頭檔\scenes</Filter>
     </ClInclude>
     <ClInclude Include="Viewer\GLcontroller.h">
       <Filter>標頭檔\opengl</Filter>
@@ -142,6 +136,18 @@
     </ClInclude>
     <ClInclude Include="Viewer\GLTFobject.h">
       <Filter>標頭檔\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\GLskybox.h">
+      <Filter>標頭檔\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\scenes_engine.h">
+      <Filter>標頭檔\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\scenes_controller.h">
+      <Filter>標頭檔\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\main_context.h">
+      <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

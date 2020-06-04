@@ -169,14 +169,15 @@ XCOPY "D:\code\vNaonGLTF viewer\GLTF Viewer\GLTF Viewer\Viewer\image" "D:\code\v
     <ClCompile Include="Viewer\GLcontroller.cpp" />
     <ClCompile Include="Viewer\GLobject.cpp" />
     <ClCompile Include="Viewer\GLprogram.cpp" />
+    <ClCompile Include="Viewer\GLskybox.cpp" />
     <ClCompile Include="Viewer\GLtexture.cpp" />
     <ClCompile Include="Viewer\GLbuffer.cpp" />
     <ClCompile Include="Viewer\bitmap_img.cpp" />
     <ClCompile Include="Viewer\Rect.cpp" />
     <ClCompile Include="Viewer\Vector.cpp" />
-    <ClCompile Include="Viewer\ViewContext.cpp" />
-    <ClCompile Include="Viewer\ViewController.cpp" />
-    <ClCompile Include="Viewer\ViewEngine.cpp" />
+    <ClCompile Include="Viewer\main_context.cpp" />
+    <ClCompile Include="Viewer\scenes_controller.cpp" />
+    <ClCompile Include="Viewer\scenes_engine.cpp" />
     <ClCompile Include="Viewer\_DEBUG_OBJECT.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +187,7 @@ XCOPY "D:\code\vNaonGLTF viewer\GLTF Viewer\GLTF Viewer\Viewer\image" "D:\code\v
     <ClInclude Include="Viewer\GLcontroller.h" />
     <ClInclude Include="Viewer\GLobject.h" />
     <ClInclude Include="Viewer\GLprogram.h" />
+    <ClInclude Include="Viewer\GLskybox.h" />
     <ClInclude Include="Viewer\GLtexture.h" />
     <ClInclude Include="Viewer\GLTFobject.h" />
     <ClInclude Include="Viewer\GLbuffer.h" />
@@ -193,9 +195,9 @@ XCOPY "D:\code\vNaonGLTF viewer\GLTF Viewer\GLTF Viewer\Viewer\image" "D:\code\v
     <ClInclude Include="Viewer\Rect.h" />
     <ClInclude Include="Viewer\common_context.h" />
     <ClInclude Include="Viewer\Vector.h" />
-    <ClInclude Include="Viewer\ViewContext.h" />
-    <ClInclude Include="Viewer\ViewController.h" />
-    <ClInclude Include="Viewer\ViewEngine.h" />
+    <ClInclude Include="Viewer\main_context.h" />
+    <ClInclude Include="Viewer\scenes_controller.h" />
+    <ClInclude Include="Viewer\scenes_engine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
