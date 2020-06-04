@@ -29,8 +29,7 @@ namespace vnaon_gl {
 	}
 
 	bool GLshaderprogram::attach_fragment_shader(const std::string &arg_src) {
-		std::string newFragShader = std::string(arg_src);
-		_frag_shd_srcs.push_back(newFragShader);
+		_frag_shd_srcs = std::string(arg_src);
 		return true;
 	}
 
