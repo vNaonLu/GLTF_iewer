@@ -28,9 +28,11 @@ namespace vnaon_common {
 
 		void set_perspective(double arg_degFOV, double arg_aspect, double arg_near, double arg_far);
 
-		void set_camera(const glm::vec3 &arg_pos, const glm::vec3 &arg_dir, const glm::vec3 &arg_ahd);
+		void set_camera(const glm::vec3 &arg_pos);
 
 		glm::mat4 get_model_offset_matrix(const glm::vec3 &arg_position) const;
+
+		glm::mat4 get_viewproj_matrix() const;
 
 		glm::vec3 get_pos() const;
 

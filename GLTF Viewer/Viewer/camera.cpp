@@ -27,25 +27,25 @@ namespace vnaon_common {
 		_init_proj_matrix();
 
 	}
-	void camera::set_camera(const glm::vec3 &arg_pos, const glm::vec3 &arg_dir, const glm::vec3 &arg_ahd) {
+	void camera::set_camera(const glm::vec3 &arg_pos) {
 		_pos = arg_pos;
-		_dir = arg_dir;
-		_dir = glm::normalize(_dir);
-		_ahd = arg_ahd;
-		_ahd = glm::vec3(0, 0, 1);
-		_ahd = _ahd - glm::dot(_ahd, _dir) * _dir;
-		_ahd = glm::normalize(_ahd);
+		_dir = glm::vec3(0.0) - _pos;
+		_ahd = glm::vec3(0, 1, 0);
+		_ahd = glm::normalize(_ahd - glm::dot(_ahd, _dir) * _dir);
 		_init_view_matrix();
 	}
 	glm::mat4 camera::get_model_offset_matrix(const glm::vec3 &arg_position) const {
-		glm::vec3 offset = arg_position - _pos;
+		glm::vec3 offset = _pos - arg_position;
 		return glm::translate(glm::mat4(1.0), offset);
+	}
+	glm::mat4 camera::get_viewproj_matrix() const {
+		return _viewproj_matrix;
 	}
 	glm::vec3 camera::get_pos() const {
 		return _pos;
 	}
 	void camera::_init_view_matrix() {
-		_view_matrix = glm::lookAt(_pos, _pos + _dir, _ahd);
+		_view_matrix = glm::lookAt(_pos, glm::vec3(0.0), _ahd);
 		_init_viewproj_matrix();
 	}
 	void camera::_init_proj_matrix() {

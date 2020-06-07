@@ -84,6 +84,12 @@
     <ClCompile Include="Viewer\camera.cpp">
       <Filter>資源檔\common</Filter>
     </ClCompile>
+    <ClCompile Include="Viewer\scenes_object.cpp">
+      <Filter>資源檔\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\scenes_skybox.cpp">
+      <Filter>資源檔\scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Viewer\GLcontroller.h">
@@ -128,11 +134,14 @@
     <ClInclude Include="Viewer\main_context.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="Viewer\scene_object.h">
-      <Filter>標頭檔\scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Viewer\camera.h">
       <Filter>標頭檔\common</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\scenes_object.h">
+      <Filter>標頭檔\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\scenes_skybox.h">
+      <Filter>標頭檔\scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

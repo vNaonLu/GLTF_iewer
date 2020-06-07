@@ -176,6 +176,8 @@ XCOPY "D:\code\vNaonGLTF viewer\GLTF Viewer\GLTF Viewer\Viewer\image" "D:\code\v
     <ClCompile Include="Viewer\main_context.cpp" />
     <ClCompile Include="Viewer\scenes_controller.cpp" />
     <ClCompile Include="Viewer\scenes_engine.cpp" />
+    <ClCompile Include="Viewer\scenes_object.cpp" />
+    <ClCompile Include="Viewer\scenes_skybox.cpp" />
     <ClCompile Include="Viewer\_DEBUG_OBJECT.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -191,10 +193,11 @@ XCOPY "D:\code\vNaonGLTF viewer\GLTF Viewer\GLTF Viewer\Viewer\image" "D:\code\v
     <ClInclude Include="Viewer\GLbuffer.h" />
     <ClInclude Include="Viewer\bitmap_img.h" />
     <ClInclude Include="Viewer\common_context.h" />
-    <ClInclude Include="Viewer\scene_object.h" />
+    <ClInclude Include="Viewer\scenes_object.h" />
     <ClInclude Include="Viewer\main_context.h" />
     <ClInclude Include="Viewer\scenes_controller.h" />
     <ClInclude Include="Viewer\scenes_engine.h" />
+    <ClInclude Include="Viewer\scenes_skybox.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

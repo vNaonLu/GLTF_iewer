@@ -1,10 +1,12 @@
 #pragma once
 #include <chrono>
+#include <vector>
 
 
 
 #include "GLcontroller.h"
 #include "camera.h"
+#include "scenes_object.h"
 
 
 
@@ -26,14 +28,12 @@ namespace vnaon_scenes {
 		// Information of camera.
 		vnaon_common::camera _camera;
 		glm::vec3 _pos;
-		glm::vec3 _dir;
-		glm::vec3 _ahd;
 		double _near;
 		double _far;
 
-		vnaon_gl::p_program _p_skybox_program;
-		vnaon_gl::p_skybox _p_skybox;
-		vnaon_gl::p_vertex_arr _p_skybox_arr;
+		// Rendering entity.
+		bool _first_render;
+		std::vector<p_scenes_object> entities;
 
 	public:
 		scenes_engine();
@@ -46,8 +46,10 @@ namespace vnaon_scenes {
 
 	private:
 		void _init();
-		bool _init_gl_resource();
+
 		void _init_camera();
+
+		void _init_render(); //only once.
 
 		void _clac_fps();
 

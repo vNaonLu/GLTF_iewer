@@ -17,14 +17,22 @@ namespace vnaon_scenes {
 	class scenes_object {
 		
 	protected:
-		vnaon_gl::p_vertex_arr p_drawing_vertex_object;
 		glm::vec3 offset;
 
 	public:
 		scenes_object();
 		virtual ~scenes_object();
 
-		virtual void draw_scenes(vnaon_gl::GLcontroller *parg_gl,  const vnaon_common::camera &carg_camera);
+		void draw_scenes(vnaon_gl::GLcontroller *parg_gl,  const vnaon_common::camera &carg_camera);
+
+		virtual void init(vnaon_gl::GLcontroller *parg_gl);
+
+		virtual void release_gl_resource();
+
+	protected:
+		virtual bool _init_render(vnaon_gl::GLcontroller *parg_gl);
+
+		virtual void draws(vnaon_gl::GLcontroller *parg_gl, const vnaon_common::camera &carg_camera);
 
 	};
 }
