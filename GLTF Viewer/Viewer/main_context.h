@@ -1,10 +1,10 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <glm\vec2.hpp>
 
 
 
-#include "Rect.h"
 #include "scenes_controller.h"
 #include "common_context.h"
 
@@ -24,7 +24,7 @@ namespace vnaon_scenes {
 		GLFWwindow *window_p;
 		std::string window_name;
 
-		vnaon_geometry::Rect view_port;
+		glm::ivec2 view_port;
 	public:
 		render_context(const std::string &arg_name, const int &arg_width, const int &arg_height);
 		~render_context();

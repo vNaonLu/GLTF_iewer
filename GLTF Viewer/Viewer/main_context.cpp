@@ -3,7 +3,6 @@
 #include <GLFW/glfw3.h>
 
 #include "main_context.h"
-#include "Rect.h"
 
 namespace vnaon_scenes {
 	// ---
@@ -11,8 +10,8 @@ namespace vnaon_scenes {
 	render_context::render_context(const std::string &arg_name, const int &arg_width, const int &arg_height) {
 		window_p = nullptr;
 		window_name = arg_name;
-		view_port.right = arg_width;
-		view_port.bottom = arg_height;
+		view_port.x = arg_width;
+		view_port.y = arg_height;
 	}
 	render_context::~render_context() {
 		terminate();
@@ -32,15 +31,13 @@ namespace vnaon_scenes {
 		}
 	}
 	bool render_context::create_window() {
-		using namespace vnaon_geometry;
-
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-		int width = (int) Rect::width(view_port);
-		int height = (int) Rect::height(view_port);
+		int width = view_port.x;
+		int height = view_port.y;
 		window_p = glfwCreateWindow(width, height, window_name.c_str(), nullptr, nullptr);
 
 		if ( window_p == nullptr )

@@ -162,9 +162,9 @@ XCOPY "D:\code\vNaonGLTF viewer\GLTF Viewer\GLTF Viewer\Viewer\image" "D:\code\v
   <ItemGroup>
     <ClCompile Include="..\..\Include\glad\glad.c" />
     <ClCompile Include="main\main.cpp" />
+    <ClCompile Include="Viewer\camera.cpp" />
     <ClCompile Include="Viewer\common_context.cpp" />
     <ClCompile Include="Viewer\file_manager.cpp" />
-    <ClCompile Include="Viewer\Geometry.cpp" />
     <ClCompile Include="Viewer\GLcolor.cpp" />
     <ClCompile Include="Viewer\GLcontroller.cpp" />
     <ClCompile Include="Viewer\GLobject.cpp" />
@@ -173,16 +173,14 @@ XCOPY "D:\code\vNaonGLTF viewer\GLTF Viewer\GLTF Viewer\Viewer\image" "D:\code\v
     <ClCompile Include="Viewer\GLtexture.cpp" />
     <ClCompile Include="Viewer\GLbuffer.cpp" />
     <ClCompile Include="Viewer\bitmap_img.cpp" />
-    <ClCompile Include="Viewer\Rect.cpp" />
-    <ClCompile Include="Viewer\Vector.cpp" />
     <ClCompile Include="Viewer\main_context.cpp" />
     <ClCompile Include="Viewer\scenes_controller.cpp" />
     <ClCompile Include="Viewer\scenes_engine.cpp" />
     <ClCompile Include="Viewer\_DEBUG_OBJECT.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Viewer\camera.h" />
     <ClInclude Include="Viewer\file_manager.h" />
-    <ClInclude Include="Viewer\Geometry.h" />
     <ClInclude Include="Viewer\GLcolor.h" />
     <ClInclude Include="Viewer\GLcontroller.h" />
     <ClInclude Include="Viewer\GLobject.h" />
@@ -192,9 +190,8 @@ XCOPY "D:\code\vNaonGLTF viewer\GLTF Viewer\GLTF Viewer\Viewer\image" "D:\code\v
     <ClInclude Include="Viewer\GLTFobject.h" />
     <ClInclude Include="Viewer\GLbuffer.h" />
     <ClInclude Include="Viewer\bitmap_img.h" />
-    <ClInclude Include="Viewer\Rect.h" />
     <ClInclude Include="Viewer\common_context.h" />
-    <ClInclude Include="Viewer\Vector.h" />
+    <ClInclude Include="Viewer\scene_object.h" />
     <ClInclude Include="Viewer\main_context.h" />
     <ClInclude Include="Viewer\scenes_controller.h" />
     <ClInclude Include="Viewer\scenes_engine.h" />

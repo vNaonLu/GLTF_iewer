@@ -16,9 +16,6 @@
     <Filter Include="資源檔\common">
       <UniqueIdentifier>{059fbe2d-e7c1-435f-9d7d-3ec307cbd264}</UniqueIdentifier>
     </Filter>
-    <Filter Include="資源檔\common\geometry">
-      <UniqueIdentifier>{6f104e3c-da75-46e1-994e-f44af8ed2cd0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="資源檔\opengl">
       <UniqueIdentifier>{c3b7a5ae-d56f-4ef8-b1bf-2cb9f4397449}</UniqueIdentifier>
     </Filter>
@@ -27,9 +24,6 @@
     </Filter>
     <Filter Include="標頭檔\common">
       <UniqueIdentifier>{3e36a7dd-0581-4a57-b88d-f626ac90acf2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="標頭檔\common\geometry">
-      <UniqueIdentifier>{14136c97-0911-4525-b9b6-71d909f66e86}</UniqueIdentifier>
     </Filter>
     <Filter Include="標頭檔\opengl">
       <UniqueIdentifier>{347fcdaf-c93e-4449-b361-2485772eff96}</UniqueIdentifier>
@@ -44,15 +38,6 @@
     </ClCompile>
     <ClCompile Include="main\main.cpp">
       <Filter>資源檔</Filter>
-    </ClCompile>
-    <ClCompile Include="Viewer\Geometry.cpp">
-      <Filter>資源檔\common\geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="Viewer\Vector.cpp">
-      <Filter>資源檔\common\geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="Viewer\Rect.cpp">
-      <Filter>資源檔\common\geometry</Filter>
     </ClCompile>
     <ClCompile Include="Viewer\_DEBUG_OBJECT.hpp">
       <Filter>標頭檔</Filter>
@@ -96,17 +81,11 @@
     <ClCompile Include="Viewer\main_context.cpp">
       <Filter>資源檔</Filter>
     </ClCompile>
+    <ClCompile Include="Viewer\camera.cpp">
+      <Filter>資源檔\common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Viewer\Geometry.h">
-      <Filter>標頭檔\common\geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Viewer\Vector.h">
-      <Filter>標頭檔\common\geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Viewer\Rect.h">
-      <Filter>標頭檔\common\geometry</Filter>
-    </ClInclude>
     <ClInclude Include="Viewer\GLcontroller.h">
       <Filter>標頭檔\opengl</Filter>
     </ClInclude>
@@ -148,6 +127,12 @@
     </ClInclude>
     <ClInclude Include="Viewer\main_context.h">
       <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\scene_object.h">
+      <Filter>標頭檔\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\camera.h">
+      <Filter>標頭檔\common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

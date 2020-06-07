@@ -232,6 +232,7 @@ namespace vnaon_gl {
 			glUseProgram(_p_bnd_prog->get_handle());
 			return __getRenderError("glUseProgram");
 		}
+		return false;
 	}
 
 	p_texture GLcontroller::create_texture_from_file(const std::string &path, GLtexture::SAMPLAR samplar) const{

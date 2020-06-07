@@ -9,7 +9,6 @@
 
 
 
-#include "Rect.h"
 #include "GLobject.h"
 #include "GLcolor.h"
 #include "GLtexture.h"

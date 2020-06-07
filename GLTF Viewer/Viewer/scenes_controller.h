@@ -8,7 +8,7 @@ namespace vnaon_scenes {
 
 	class view_controller {
 	protected:
-		scenes_engine *pViewEngine;
+		scenes_engine *p_scenes_engine;
 
 	public:
 		view_controller();

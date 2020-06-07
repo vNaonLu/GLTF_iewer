@@ -13,6 +13,7 @@ namespace vnaon_scenes {
 		_p_skybox_program = nullptr;
 		_p_skybox = nullptr;
 		_p_skybox_arr = nullptr;
+		_degfov = 45;
 		_aspect = 1;
 
 		_init();
@@ -44,15 +45,28 @@ namespace vnaon_scenes {
 
 	}
 
-	void scenes_engine::adjust_viewport(const int &w, const int &h) {
-		if ( h > 0 ) {
-			_aspect = (double) (w / h);
-			_p_glcontroller->adjust_viewport(w, h);
+	void scenes_engine::adjust_viewport(const int &arg_width, const int &arg_height) {
+		if ( arg_height > 0 ) {
+			_aspect = (double) (arg_width / arg_height);
+			_p_glcontroller->adjust_viewport(arg_width, arg_height);
 		}
 	}
 
 	void scenes_engine::_init() {
 		_p_glcontroller = new vnaon_gl::GLcontroller();
+
+		// camera init
+		_pos = glm::vec3(1, 1, 1);
+		_dir = glm::vec3(-1, -1, -1);
+		_dir = glm::normalize(_dir);
+		_ahd = glm::vec3(0, 0, 1);
+		_ahd = _ahd - glm::dot(_ahd, _dir) * _dir;
+		_ahd = glm::normalize(_ahd);
+		_near = 0.1;
+		_far = 10.0;
+		_init_camera();
+		
+
 	}
 
 	bool scenes_engine::_init_gl_resource() {
@@ -122,6 +136,11 @@ namespace vnaon_scenes {
 			}
 		);
 		return true;
+	}
+
+	void scenes_engine::_init_camera() {
+		_camera.set_camera(_pos, _dir, _ahd);
+		_camera.set_perspective(_degfov, _aspect, _near, _far);
 	}
 
 	void scenes_engine::_clac_fps() {
