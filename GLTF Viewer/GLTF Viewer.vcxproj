@@ -173,6 +173,7 @@ XCOPY "D:\code\vNaonGLTF viewer\GLTF Viewer\GLTF Viewer\Viewer\image" "D:\code\v
     <ClCompile Include="Viewer\GLtexture.cpp" />
     <ClCompile Include="Viewer\GLbuffer.cpp" />
     <ClCompile Include="Viewer\bitmap_img.cpp" />
+    <ClCompile Include="Viewer\GLuniform.cpp" />
     <ClCompile Include="Viewer\main_context.cpp" />
     <ClCompile Include="Viewer\scenes_controller.cpp" />
     <ClCompile Include="Viewer\scenes_engine.cpp" />
@@ -193,6 +194,7 @@ XCOPY "D:\code\vNaonGLTF viewer\GLTF Viewer\GLTF Viewer\Viewer\image" "D:\code\v
     <ClInclude Include="Viewer\GLbuffer.h" />
     <ClInclude Include="Viewer\bitmap_img.h" />
     <ClInclude Include="Viewer\common_context.h" />
+    <ClInclude Include="Viewer\GLuniform.h" />
     <ClInclude Include="Viewer\scenes_object.h" />
     <ClInclude Include="Viewer\main_context.h" />
     <ClInclude Include="Viewer\scenes_controller.h" />

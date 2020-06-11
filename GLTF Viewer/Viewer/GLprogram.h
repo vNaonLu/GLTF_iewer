@@ -1,9 +1,11 @@
 #pragma once
-#include "GLobject.h"
 #include <vector>
 #include <string>
 #include <map>
 
+
+#include "GLobject.h"
+#include "GLuniform.h"
 
 
 namespace vnaon_gl {
@@ -29,8 +31,7 @@ namespace vnaon_gl {
 		std::string _vert_shd_src;
 		std::string _frag_shd_srcs;
 		std::map<std::string, _ARG_PROP> _attribs_info;
-	public:
-		std::map<std::string, _ARG_PROP> _unifors_info;
+		std::map<std::string, std::vector<p_uniform>> _unifors_info;
 
 	public:
 		GLshaderprogram(GLuint arg_handle, const std::string &arg_name );
@@ -73,6 +74,11 @@ namespace vnaon_gl {
 		/// Specifies the name of program.
 		/// </summary>
 		std::string get_program_name() const;
+
+		/// <summary>
+		/// Get the target uniform.
+		/// </summary>
+		p_uniform uniform(std::string arg_uniform, GLint arg_index = 0);
 
 	protected:
 

@@ -90,6 +90,9 @@
     <ClCompile Include="Viewer\scenes_skybox.cpp">
       <Filter>資源檔\scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Viewer\GLuniform.cpp">
+      <Filter>資源檔\opengl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Viewer\GLcontroller.h">
@@ -142,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="Viewer\scenes_skybox.h">
       <Filter>標頭檔\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\GLuniform.h">
+      <Filter>標頭檔\opengl</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

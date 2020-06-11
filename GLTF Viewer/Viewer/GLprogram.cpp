@@ -59,6 +59,12 @@ namespace vnaon_gl {
 		return _program_name;
 	}
 
+	p_uniform GLshaderprogram::uniform(std::string arg_uniform, GLint arg_index) {
+		p_uniform ret = _unifors_info[arg_uniform][arg_index];
+		if ( ret == nullptr ) ret = GLuniform::create(GL_NONE, arg_uniform, 0);
+		return ret;
+	}
+
 	bool GLshaderprogram::ready_to_compile() const {
 		return _vert_shd_src != "" && _frag_shd_srcs != "";
 	}
@@ -110,7 +116,10 @@ namespace vnaon_gl {
 			glGetActiveUniform(handle, (GLuint) i, GLshaderprogram::MAX_NAME_LEN, &char_len, &uni_len, &type, name);
 			GLcontroller::__getRenderError("glGetActiveUniform");
 
-			_unifors_info[name] = GLshaderprogram::_ARG_PROP{ (GLuint) i, uni_len, type };
+			std::vector<p_uniform> v_uniform(uni_len);
+			for ( int j = 0; j < uni_len; j++ )
+				v_uniform[j] = GLuniform::create(type, name, (GLuint) (i + j));
+			_unifors_info[name] = v_uniform;
 		}
 	}
 
