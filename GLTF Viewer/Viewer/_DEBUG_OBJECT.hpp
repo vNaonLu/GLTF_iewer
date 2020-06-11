@@ -5,11 +5,7 @@
 namespace DEBUGConsole{ 
 	using namespace std;
 
-	template <class T>
-	static void log(initializer_list<T> aList) {
-		for ( auto elem : aList ) {
-			cout << elem << ', ';
-		}
-		cout << endl;
+	static void log(string str) {
+		cout << str << endl;
 	}
 }

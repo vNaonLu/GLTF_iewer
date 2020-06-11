@@ -19,29 +19,23 @@ namespace vnaon_scenes {
 	/// </summary>
 	class render_context : public vnaon_common::_i_event_context {
 	public:
-		static view_controller *controller_p;
+		view_controller *p_controller;
 	private:
-		GLFWwindow *window_p;
-		std::string window_name;
-
-		glm::ivec2 view_port;
+		HINSTANCE _hInstance;
+		HWND _hWnd;
+		HDC _device_context;
+		HGLRC _render_context;
+		glm::ivec2 _viewport;
 	public:
-		render_context(const std::string &arg_name, const int &arg_width, const int &arg_height);
+		render_context(HINSTANCE arg_hInstance, HWND arg_hWnd, int arg_width, int arg_height);
 		~render_context();
-		// the main function of render_context.
-		void render();
 	private:
+		bool init_wglcontext();
 		bool init();
-		bool create_window();
-		bool init_window();
-		bool alive() const;
-		void swap_buffer();
-		void set_swap_interval(int interval);
-		void terminate();
-		void attach_event();
 		virtual void process() override;
-	public:
-		static void onResize(GLFWwindow *window, int width, int height);
+	public:		
+		static LRESULT CALLBACK fake_procedure(HWND window_handle, UINT message, WPARAM param_w, LPARAM param_l);
+		void onResize(int width, int height);
 
 	};
 

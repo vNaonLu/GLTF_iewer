@@ -1,7 +1,5 @@
 #pragma once
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
 #include "scenes_engine.h"
 
 namespace vnaon_scenes {

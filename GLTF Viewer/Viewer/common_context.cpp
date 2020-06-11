@@ -29,6 +29,9 @@ namespace vnaon_common {
 		context_thread_p->join();
 		delete context_thread_p;
 	}
+	bool _i_event_context::is_alive() const {
+		return !_abort;
+	}
 	void _i_event_context::push(event_task_p command) {
 		if ( command == nullptr ) return;
 

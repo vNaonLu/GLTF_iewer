@@ -6,6 +6,11 @@
 
 > - [**nlohmann/json**](https://github.com/nlohmann/json)
 > - [**nothings/stb**](https://github.com/nothings/stb)
-> - [**glfw**](https://github.com/glfw/glfw)
 > - [**glad**](https://glad.dav1d.de/)
 > - [**g-truc/glm**](https://github.com/g-truc/glm)
+
+## Update:
+- `2020 06 11`
+>1. Removes  [glfw](https://github.com/glfw/glfw) from project.
+>1. Modifies the windows by wgl.
+>1. Refers the header of `gl/glext.h` and `gl/wglext.h` from [OpenGL register](https://www.khronos.org/registry/OpenGL/index_gl.php)

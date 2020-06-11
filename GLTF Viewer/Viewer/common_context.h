@@ -68,9 +68,10 @@ namespace vnaon_common {
 	public:
 		_i_event_context();
 		~_i_event_context();
+		bool is_alive() const;
 		void push(event_task_p command);
-	protected:
 		void abort();
+	protected:
 		bool stop_if_need();
 		event_task_p pop();
 		virtual void process();	
