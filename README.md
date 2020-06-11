@@ -14,3 +14,4 @@
 >1. Removes  [glfw](https://github.com/glfw/glfw) from project.
 >1. Modifies the windows by wgl.
 >1. Refers the header of `gl/glext.h` and `gl/wglext.h` from [OpenGL register](https://www.khronos.org/registry/OpenGL/index_gl.php)
+>1. Abstracts the uniform object.
