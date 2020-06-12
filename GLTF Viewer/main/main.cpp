@@ -7,26 +7,48 @@
 vnaon_scenes::render_context *g_context = nullptr;
 
 LRESULT CALLBACK window_procedure(HWND arg_hWnd, UINT arg_msg, WPARAM arg_wParam, LPARAM arg_lParam) {
-    switch ( arg_msg ) {
-    case WM_MOUSEMOVE:
-    {
-        int xPos = GET_X_LPARAM(arg_lParam);
-        int yPos = GET_Y_LPARAM(arg_lParam);
-        DEBUGConsole::log("Mouse Move: (x:" + std::to_string(xPos) + ", y:" + std::to_string(yPos) + ")");
-    }
-    break;
-    //----
-    case WM_DESTROY:
-    {
-        g_context->abort();
-        PostQuitMessage(0);
-    }
-    break;
-    //----
-    default:
+    if ( g_context != nullptr && g_context->p_controller != nullptr ) {
+        switch ( arg_msg ) {
+        case WM_LBUTTONDOWN:
+        {
+            switch ( arg_wParam ) {
+            case MK_LBUTTON:
+            {
+                int xPos = GET_X_LPARAM(arg_lParam);
+                int yPos = GET_Y_LPARAM(arg_lParam);
+                g_context->p_controller->on_left_mouse_down(xPos, yPos);
+            }
+            break;
+            }
+        }
+        return 0;
+        //----
+        case WM_MOUSEMOVE:
+        {
+            int xPos = GET_X_LPARAM(arg_lParam);
+            int yPos = GET_Y_LPARAM(arg_lParam);
+            g_context->p_controller->on_mouse_move(xPos, yPos);
+        }
+        return 0;
+        //----
+        case WM_DESTROY:
+        {
+            g_context->abort();
+            PostQuitMessage(0);
+        }
+        return 0;
+        }
         return DefWindowProc(arg_hWnd, arg_msg, arg_wParam, arg_lParam);
+    } else {
+        switch ( arg_msg ) {
+        case WM_DESTROY:
+        {
+            PostQuitMessage(0);
+        }
+        return 0;
+        }
+        return DefWindowProc(arg_hWnd, arg_msg, arg_wParam, arg_lParam);    
     }
-    return 0;
 }
 
 int WINAPI WinMain(HINSTANCE instance_handle, HINSTANCE prev_instance_handle, PSTR cmd_line, int cmd_show) {

@@ -18,16 +18,10 @@ namespace vnaon_scenes {
 	class scenes_engine {
 
 	private:
-		typedef std::chrono::system_clock clock;
-		clock::time_point _last_engine_time;
 		vnaon_gl::GLcontroller *_p_glcontroller;
-		double _fps;
-		double _degfov;
-		double _aspect;
 
 		// Information of camera.
 		vnaon_common::camera _camera;
-		glm::vec3 _pos;
 		double _near;
 		double _far;
 
@@ -40,19 +34,16 @@ namespace vnaon_scenes {
 		~scenes_engine();
 
 		//Main Function.
-		void draw();
+		void draw(glm::vec2 arg_viewport, glm::vec3 arg_frustum_pos);
 
 		void adjust_viewport(const int &w, const int &h);
 
 	private:
 		void _init();
 
-		void _init_camera();
+		void _set_camera(glm::vec2 arg_viewport, glm::vec3 arg_pos, double arg_near, double arg_far);
 
 		void _init_render(); //only once.
-
-		void _clac_fps();
-
 
 	};
 

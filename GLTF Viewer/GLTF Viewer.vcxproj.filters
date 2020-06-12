@@ -93,6 +93,9 @@
     <ClCompile Include="Viewer\GLuniform.cpp">
       <Filter>資源檔\opengl</Filter>
     </ClCompile>
+    <ClCompile Include="Viewer\scenes_move_engine.cpp">
+      <Filter>資源檔\scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Viewer\GLcontroller.h">
@@ -148,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="Viewer\GLuniform.h">
       <Filter>標頭檔\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\scenes_move_engine.h">
+      <Filter>標頭檔\scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
