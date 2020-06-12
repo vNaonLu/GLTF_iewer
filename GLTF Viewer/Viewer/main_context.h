@@ -1,7 +1,11 @@
 #pragma once
 #include <vector>
 #include <string>
-#include <glm\vec2.hpp>
+#include <Windows.h>
+#include <glad/glad.h>
+#include <gl/glext.h>
+#include <gl/wglext.h>
+#include <glm/vec2.hpp>
 
 
 
@@ -26,11 +30,16 @@ namespace vnaon_scenes {
 		HDC _device_context;
 		HGLRC _render_context;
 		glm::ivec2 _viewport;
+
+		PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatARB;
+		PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB;
+		PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
 	public:
 		render_context(HINSTANCE arg_hInstance, HWND arg_hWnd, int arg_width, int arg_height);
 		~render_context();
 	private:
-		bool init_wglcontext();
+		bool init_opengl_extensions();
+		bool init_opengl();
 		bool init();
 		virtual void process() override;
 	public:		

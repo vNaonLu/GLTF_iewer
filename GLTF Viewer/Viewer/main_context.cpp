@@ -1,8 +1,4 @@
 #include <functional>
-#include <Windows.h>
-#include <glad/glad.h>
-#include <gl/glext.h>
-#include <gl/wglext.h>
 
 #include "main_context.h"
 #include "_DEBUG_OBJECT.hpp"
@@ -16,49 +12,143 @@ namespace vnaon_scenes {
 		this->_device_context = nullptr;
 		this->_render_context = nullptr;
 		this->_viewport = glm::ivec2(arg_width, arg_height);
+		this->wglChoosePixelFormatARB = NULL;
+		this->wglCreateContextAttribsARB = NULL;
 	}
 
 	render_context::~render_context() {
 
 	}
 
-	bool render_context::init_wglcontext() {
-		//this->_hInstance = GetModuleHandle(NULL);
-		WNDCLASS window_class;
+	bool render_context::init_opengl_extensions() {
+		WNDCLASSA window_class;
 		ZeroMemory(&window_class, sizeof(window_class));
 		window_class.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 		window_class.lpfnWndProc = fake_procedure;
-		window_class.hInstance = this->_hInstance;
-		window_class.lpszClassName = TEXT("FAKE");
-		RegisterClass(&window_class);
+		window_class.hInstance = GetModuleHandle(NULL);
+		window_class.hCursor = LoadCursor(0, IDC_ARROW),
+		window_class.lpszClassName = "dummy";
+		if ( !RegisterClassA(&window_class) ) {
+			DEBUGConsole::log("Failed to register dummy OpenGL window.");
+			return false;
+		}
 
-		HWND fake_wnd = CreateWindow(TEXT("FAKE"), TEXT("GLTF Viewer"), WS_OVERLAPPED | WS_SYSMENU | WS_VISIBLE, 0, 0, 1, 1, NULL, NULL, this->_hInstance, NULL);
-		HDC fake_device_context = GetDC(fake_wnd);
+		HWND dummy_wnd = CreateWindowExA(
+			0,
+			window_class.lpszClassName,
+			"dummy window",
+			0,
+			CW_USEDEFAULT,
+			CW_USEDEFAULT,
+			CW_USEDEFAULT,
+			CW_USEDEFAULT,
+			0,
+			0,
+			window_class.hInstance,
+			0
+		);
+		if ( !dummy_wnd ) {
+			DEBUGConsole::log("Failed to create dummy OpenGL window.");
+			return false;
+		}
+		HDC dummy_device_context = GetDC(dummy_wnd);
 
-		PIXELFORMATDESCRIPTOR descriptor;
-		ZeroMemory(&descriptor, sizeof(descriptor));
-		descriptor.nSize = sizeof(descriptor);
-		descriptor.nVersion = 1;
-		descriptor.dwFlags = PFD_DRAW_TO_WINDOW | PFD_DRAW_TO_BITMAP | PFD_SUPPORT_OPENGL | PFD_GENERIC_ACCELERATED | PFD_DOUBLEBUFFER | PFD_SWAP_LAYER_BUFFERS;
-		descriptor.iPixelType = PFD_TYPE_RGBA;
-		descriptor.cColorBits = 32;
-		descriptor.cRedBits = 8;
-		descriptor.cGreenBits = 8;
-		descriptor.cBlueBits = 8;
-		descriptor.cAlphaBits = 8;
-		descriptor.cDepthBits = 32;
-		descriptor.cStencilBits = 8;
+		PIXELFORMATDESCRIPTOR pfd;
+		ZeroMemory(&pfd, sizeof(pfd));
+		pfd.nSize = sizeof(pfd);
+		pfd.nVersion = 1;
+		pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER | PFD_GENERIC_ACCELERATED;
+		pfd.iPixelType = PFD_TYPE_RGBA;
+		pfd.iLayerType = PFD_MAIN_PLANE,
+		pfd.cColorBits = 32;
+		pfd.cDepthBits = 24;
+		pfd.cStencilBits = 8;
 
-		int pixel_format = ChoosePixelFormat(fake_device_context, &descriptor);
-		SetPixelFormat(fake_device_context, pixel_format, &descriptor);
+		int pixel_format = ChoosePixelFormat(dummy_device_context, &pfd);
+		if ( !pixel_format ) {
+			DEBUGConsole::log("Failed to find a suitable pixel format.");
+			return false;
+		}
+		if ( !SetPixelFormat(dummy_device_context, pixel_format, &pfd) ) {
+			DEBUGConsole::log("Failed to set the pixel format.");
+			return false;
+		}
 
-		HGLRC fake_render_context = wglCreateContext(fake_device_context);
-		wglMakeCurrent(fake_device_context, fake_render_context);
+		HGLRC dummy_render_context = wglCreateContext(dummy_device_context);
+		if ( !dummy_render_context ) {
+			DEBUGConsole::log("Failed to create a dummy OpenGL rendering context.");
+			return false;
+		}
 
-		PFNWGLGETEXTENSIONSSTRINGARBPROC wglGetExtensionsStringARB = (PFNWGLGETEXTENSIONSSTRINGARBPROC) wglGetProcAddress("wglGetExtensionsStringARB");
-		PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatARB = (PFNWGLCHOOSEPIXELFORMATARBPROC) wglGetProcAddress("wglChoosePixelFormatARB");
-		PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB = (PFNWGLCREATECONTEXTATTRIBSARBPROC) wglGetProcAddress("wglCreateContextAttribsARB");
-		PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC) wglGetProcAddress("wglSwapIntervalEXT");
+		if ( !wglMakeCurrent(dummy_device_context, dummy_render_context) ) {
+			DEBUGConsole::log("Failed to activate dummy OpenGL rendering context.");
+			return false;
+		}
+
+		this->wglChoosePixelFormatARB = (PFNWGLCHOOSEPIXELFORMATARBPROC) wglGetProcAddress("wglChoosePixelFormatARB");
+		this->wglCreateContextAttribsARB = (PFNWGLCREATECONTEXTATTRIBSARBPROC) wglGetProcAddress("wglCreateContextAttribsARB");
+		this->wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC) wglGetProcAddress("wglSwapIntervalEXT");
+
+		wglMakeCurrent(dummy_device_context, NULL);
+		wglDeleteContext(dummy_render_context);
+		ReleaseDC(dummy_wnd, dummy_device_context);
+		DestroyWindow(dummy_wnd);
+
+		return true;
+	}
+
+	bool render_context::init_opengl() {
+		if ( !init_opengl_extensions() )
+			return false;
+
+		this->_device_context = GetDC(this->_hWnd);
+
+		int pixel_attributes[] = {
+			WGL_DRAW_TO_WINDOW_ARB,     GL_TRUE,
+			WGL_SUPPORT_OPENGL_ARB,     GL_TRUE,
+			WGL_ACCELERATION_ARB,       WGL_FULL_ACCELERATION_ARB,
+			WGL_SWAP_METHOD_ARB,		WGL_SWAP_EXCHANGE_ARB,
+			WGL_PIXEL_TYPE_ARB,         WGL_TYPE_RGBA_ARB,
+			WGL_DOUBLE_BUFFER_ARB,      GL_TRUE,
+			WGL_SAMPLE_BUFFERS_ARB,		GL_TRUE,
+			WGL_SAMPLES_ARB,			4,
+			WGL_COLOR_BITS_ARB,         32,
+			WGL_DEPTH_BITS_ARB,         24,
+			WGL_STENCIL_BITS_ARB,       8,
+			0
+		};
+		int pixel_format;
+		UINT num_formats;
+		this->wglChoosePixelFormatARB(this->_device_context, pixel_attributes, NULL, 1, &pixel_format, &num_formats);
+
+		if ( !num_formats ) {
+			DEBUGConsole::log("Failed to set the pixel format.");
+			return false;
+		}
+
+		PIXELFORMATDESCRIPTOR pfd;
+		if ( !SetPixelFormat(this->_device_context, pixel_format, &pfd) ) {
+			DEBUGConsole::log("Failed to set the pixel format.");
+			return false;
+		}		
+
+		GLint context_attributes[] = {
+			WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
+			WGL_CONTEXT_MINOR_VERSION_ARB, 6,
+			0
+		};
+
+		this->_render_context = this->wglCreateContextAttribsARB(this->_device_context, 0, context_attributes);
+
+		if ( !this->_render_context ) {
+			DEBUGConsole::log("Failed to create the render context.");
+			return false;
+		}
+
+		if ( !wglMakeCurrent(this->_device_context, this->_render_context) ) {
+			DEBUGConsole::log("Failed to activate the render context.");
+			return false;
+		}
 
 
 		if ( !gladLoadGL() ) {
@@ -66,62 +156,15 @@ namespace vnaon_scenes {
 			return false;
 		}
 
-		wglMakeCurrent(fake_device_context, NULL);
-		wglDeleteContext(fake_render_context);
-		ReleaseDC(fake_wnd, fake_device_context);
-		DestroyWindow(fake_wnd);
+		ShowWindow(this->_hWnd, SW_SHOW);
 
-		//this->_hWnd = CreateWindow(TEXT("GLTF Viewer"), TEXT("GLTF Viewer"), WS_OVERLAPPED | WS_SYSMENU | WS_VISIBLE, 0, 0, 800, 600, NULL, NULL, this->_hInstance, NULL);
-		this->_device_context = GetDC(this->_hWnd);
-
-		int pixel_format_arb;
-		UINT pixel_formats_found;
-		int pixel_attributes[] = {
-			WGL_SUPPORT_OPENGL_ARB, TRUE,
-			WGL_DRAW_TO_WINDOW_ARB, TRUE,
-			WGL_DRAW_TO_BITMAP_ARB, TRUE,
-			WGL_DOUBLE_BUFFER_ARB, TRUE,
-			WGL_SWAP_LAYER_BUFFERS_ARB, TRUE,
-			WGL_COLOR_BITS_ARB, 32,
-			WGL_RED_BITS_ARB, 8,
-			WGL_GREEN_BITS_ARB, 8,
-			WGL_BLUE_BITS_ARB, 8,
-			WGL_ALPHA_BITS_ARB, 8,
-			WGL_DEPTH_BITS_ARB, 32,
-			WGL_STENCIL_BITS_ARB, 8,
-			WGL_ACCELERATION_ARB, WGL_FULL_ACCELERATION_ARB,
-			WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
-			0
-		};
-		if ( wglChoosePixelFormatARB(this->_device_context, pixel_attributes, NULL, 1, &pixel_format_arb, &pixel_formats_found) == FALSE ) {
-			return false;
-		}
-		if ( SetPixelFormat(this->_device_context, pixel_format, &descriptor) == FALSE ) {
-			return false;
-		}
-		
-
-		GLint context_attributes[] = {
-			WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
-			WGL_CONTEXT_MINOR_VERSION_ARB, 0,
-			0
-		};
-
-		this->_render_context = wglCreateContextAttribsARB(this->_device_context, 0, context_attributes);
-
-		if ( !this->_render_context ) {
-			DEBUGConsole::log("Failed to create the render context.");
-			return false;
-		}
-
-		wglMakeCurrent(this->_device_context, this->_render_context);
-		wglSwapIntervalEXT(1);
+		this->wglSwapIntervalEXT(1);
 
 		return true;
 	}
 
 	bool render_context::init() {
-		this->p_controller = new vnaon_scenes::view_controller();
+		this->p_controller = new vnaon_scenes::view_controller(_viewport.x, _viewport.y);
 
 		bool ret = true;
 		return ret;
@@ -129,7 +172,8 @@ namespace vnaon_scenes {
 
 	void render_context::process() {
 
-		if ( init_wglcontext() && init() ) {
+		if ( init_opengl() && init() ) {
+			SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
 			while ( is_alive() ) {
 
 				p_controller->render();
@@ -156,6 +200,7 @@ namespace vnaon_scenes {
 	}
 
 	void render_context::onResize(int width, int height) {
+		_viewport = glm::ivec2(width, height);
 		p_controller->adjust_viewer(width, height);
 	}
 }

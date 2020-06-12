@@ -14,15 +14,15 @@ namespace vnaon_scenes {
 	protected:
 		typedef std::chrono::system_clock clock;
 		clock::time_point _last_engine_time;
-		scenes_engine *p_scenes_engine;
-		scenes_move_engine *p_move_engine;
-		glm::vec2 viewport;
-		glm::vec2 mouse_pos;
+		scenes_engine *_p_scenes_engine;
+		scenes_move_engine *_p_move_engine;
+		glm::vec2 _viewport;
+		glm::vec2 _mouse_pos;
 		double _fps;
 		double _last_tick_count;
 
 	public:
-		view_controller();
+		view_controller(int arg_x, int arg_y);
 		~view_controller();
 
 		//Main function.
