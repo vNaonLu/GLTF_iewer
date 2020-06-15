@@ -31,7 +31,7 @@ namespace vnaon_scenes {
 		void close();
 
 	public:
-		void adjust_viewer(const int &w, const int &h);
+		void on_viewport_change(const int &w, const int &h);
 
 		void on_mouse_move(int arg_x, int arg_y);
 

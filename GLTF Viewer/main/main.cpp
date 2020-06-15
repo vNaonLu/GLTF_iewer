@@ -33,6 +33,20 @@ LRESULT CALLBACK window_procedure(HWND arg_hWnd, UINT arg_msg, WPARAM arg_wParam
         }
         return 0;
         //----
+        case WM_SIZING:
+        {            
+            RECT *view_rect;
+            view_rect = (RECT *) arg_lParam;
+            g_context->p_controller->on_viewport_change((int)(view_rect->right - view_rect->left), (int)(view_rect->bottom - view_rect->top));
+        }
+        return 0;
+        //----
+        case WM_SIZE:
+        {
+            g_context->p_controller->on_viewport_change(LOWORD(arg_lParam), HIWORD(arg_lParam));
+        }
+        return 0;
+        //----
         case WM_CLOSE:
         {
             g_context->abort();

@@ -195,9 +195,4 @@ namespace vnaon_scenes {
 		}
 		return DefWindowProc(window_handle, message, param_w, param_l);
 	}
-
-	void render_context::onResize(int width, int height) {
-		_viewport = glm::ivec2(width, height);
-		p_controller->adjust_viewer(width, height);
-	}
 }

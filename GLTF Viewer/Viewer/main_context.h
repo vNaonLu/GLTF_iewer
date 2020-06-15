@@ -44,7 +44,6 @@ namespace vnaon_scenes {
 		virtual void process() override;
 	public:		
 		static LRESULT CALLBACK fake_procedure(HWND window_handle, UINT message, WPARAM param_w, LPARAM param_l);
-		void onResize(int width, int height);
 
 	};
 

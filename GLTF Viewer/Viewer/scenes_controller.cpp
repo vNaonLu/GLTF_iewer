@@ -31,10 +31,9 @@ namespace vnaon_scenes {
 		if ( _p_move_engine != nullptr ) delete _p_move_engine;
 	}
 
-	void view_controller::adjust_viewer(const int &w, const int &h) {
+	void view_controller::on_viewport_change(const int &w, const int &h) {
 		if ( h > 0 ) {
 			_viewport = glm::vec2(w, h);
-			_p_scenes_engine->adjust_viewport(w, h);
 		}
 	}
 
@@ -57,7 +56,7 @@ namespace vnaon_scenes {
 		_last_tick_count = duration<double, milli>(nowTimePoint - _last_engine_time).count();
 		_last_engine_time = nowTimePoint;
 		_fps = 1000.0 / _last_tick_count;
-		DEBUGConsole::log("FPS: " + std::to_string(_fps));
+		//DEBUGConsole::log("FPS: " + std::to_string(_fps));
 		return _last_tick_count;
 	}
 

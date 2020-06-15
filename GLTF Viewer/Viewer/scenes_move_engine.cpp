@@ -96,7 +96,6 @@ namespace vnaon_scenes {
 			glm::dmat4 rot = glm::rotate(glm::dmat4(1.0), _vert_speed, glm::dvec3(1.0, 0.0, 0.0));
 			arg_out = rot * glm::dvec4(arg_out, 1.0);
 		}
-		DEBUGConsole::log("Mouse down: (" + std::to_string(arg_out.x) + ", " + std::to_string(arg_out.y) + ", " + std::to_string(arg_out.z) + ")");
 	}
 
 	void scenes_move_engine::move_pannig::adjust_param(double arg_tick_count, glm::vec2 arg_parm) {

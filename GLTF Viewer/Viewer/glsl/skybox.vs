@@ -1,10 +1,10 @@
 #version 330 core
-layout (location = 0) in vec3 i_pos;
-out vec3 v_tex_coords;
+layout (location = 0) in vec3 i_Pos;
+out vec3 v_TexCoord;
 
-uniform mat4 model_proj_view;
+uniform mat4 u_ProjViewModel;
 
 void main(){
-    gl_Position = model_proj_view * vec4(i_pos, 1.0);
-    v_tex_coords = i_pos;
+    gl_Position = u_ProjViewModel * vec4(i_Pos, 1.0);
+    v_TexCoord = i_Pos;
 }

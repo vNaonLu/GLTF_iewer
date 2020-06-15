@@ -35,7 +35,7 @@ namespace vnaon_scenes {
 		glm::mat4 translate = carg_camera.get_model_offset_matrix(glm::vec3(0.0));
 		glm::mat4 scale = glm::scale(glm::mat4(1.0), glm::vec3(glm::length(carg_camera.get_pos()) * 10.0f));
 		glm::mat4 mvp_matrix = carg_camera.get_viewproj_matrix() * translate;
-		p_skybox_shaderprogram->uniform("model_proj_view")->set_value(glm::value_ptr(mvp_matrix));
+		p_skybox_shaderprogram->uniform("u_ProjViewModel")->set_value(glm::value_ptr(mvp_matrix));
 		parg_gl->draw_array(GL_TRIANGLES, 0, 36);
 		parg_gl->unbind_vertex_array();
 	}
