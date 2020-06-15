@@ -31,7 +31,10 @@ namespace vnaon_scenes {
 
 		if ( _p_glcontroller == nullptr ) return;
 
-		if ( _first_render ) _init_render();
+		if ( _first_render ) {
+			_first_render = false;
+			_init_render();
+		}
 
 		_p_glcontroller->set_clean_color(vnaon_gl::GLcolor("#505050"));
 		_p_glcontroller->clear();

@@ -14,6 +14,7 @@ namespace vnaon_scenes {
 		this->_viewport = glm::ivec2(arg_width, arg_height);
 		this->wglChoosePixelFormatARB = NULL;
 		this->wglCreateContextAttribsARB = NULL;
+		this->wglSwapIntervalEXT = NULL;
 	}
 
 	render_context::~render_context() {
@@ -21,31 +22,26 @@ namespace vnaon_scenes {
 	}
 
 	bool render_context::init_opengl_extensions() {
-		WNDCLASSA window_class;
+		WNDCLASSEX window_class;
 		ZeroMemory(&window_class, sizeof(window_class));
+		window_class.cbSize = sizeof(window_class);
 		window_class.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 		window_class.lpfnWndProc = fake_procedure;
 		window_class.hInstance = GetModuleHandle(NULL);
-		window_class.hCursor = LoadCursor(0, IDC_ARROW),
 		window_class.lpszClassName = "dummy";
-		if ( !RegisterClassA(&window_class) ) {
+		if ( !RegisterClassEx(&window_class) ) {
 			DEBUGConsole::log("Failed to register dummy OpenGL window.");
 			return false;
 		}
 
-		HWND dummy_wnd = CreateWindowExA(
+		HWND dummy_wnd = CreateWindowEx(
 			0,
 			window_class.lpszClassName,
 			"dummy window",
 			0,
-			CW_USEDEFAULT,
-			CW_USEDEFAULT,
-			CW_USEDEFAULT,
-			CW_USEDEFAULT,
-			0,
-			0,
-			window_class.hInstance,
-			0
+			0, 0, 1, 1,
+			NULL, NULL,
+			window_class.hInstance, NULL
 		);
 		if ( !dummy_wnd ) {
 			DEBUGConsole::log("Failed to create dummy OpenGL window.");
@@ -57,18 +53,16 @@ namespace vnaon_scenes {
 		ZeroMemory(&pfd, sizeof(pfd));
 		pfd.nSize = sizeof(pfd);
 		pfd.nVersion = 1;
-		pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER | PFD_GENERIC_ACCELERATED;
+		pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
 		pfd.iPixelType = PFD_TYPE_RGBA;
-		pfd.iLayerType = PFD_MAIN_PLANE,
 		pfd.cColorBits = 32;
-		pfd.cDepthBits = 24;
-		pfd.cStencilBits = 8;
 
 		int pixel_format = ChoosePixelFormat(dummy_device_context, &pfd);
 		if ( !pixel_format ) {
 			DEBUGConsole::log("Failed to find a suitable pixel format.");
 			return false;
 		}
+		
 		if ( !SetPixelFormat(dummy_device_context, pixel_format, &pfd) ) {
 			DEBUGConsole::log("Failed to set the pixel format.");
 			return false;
@@ -89,7 +83,7 @@ namespace vnaon_scenes {
 		this->wglCreateContextAttribsARB = (PFNWGLCREATECONTEXTATTRIBSARBPROC) wglGetProcAddress("wglCreateContextAttribsARB");
 		this->wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC) wglGetProcAddress("wglSwapIntervalEXT");
 
-		wglMakeCurrent(dummy_device_context, NULL);
+		wglMakeCurrent(NULL, NULL);
 		wglDeleteContext(dummy_render_context);
 		ReleaseDC(dummy_wnd, dummy_device_context);
 		DestroyWindow(dummy_wnd);
@@ -98,8 +92,7 @@ namespace vnaon_scenes {
 	}
 
 	bool render_context::init_opengl() {
-		if ( !init_opengl_extensions() )
-			return false;
+		if ( !init_opengl_extensions() ) return false;
 
 		this->_device_context = GetDC(this->_hWnd);
 
@@ -127,6 +120,10 @@ namespace vnaon_scenes {
 		}
 
 		PIXELFORMATDESCRIPTOR pfd;
+		if ( !DescribePixelFormat(this->_device_context, pixel_format, sizeof(pfd), &pfd) ) {
+			DEBUGConsole::log("Failed to retrieve PFD for selected pixel format.");
+			return false;
+		}
 		if ( !SetPixelFormat(this->_device_context, pixel_format, &pfd) ) {
 			DEBUGConsole::log("Failed to set the pixel format.");
 			return false;
@@ -134,7 +131,7 @@ namespace vnaon_scenes {
 
 		GLint context_attributes[] = {
 			WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
-			WGL_CONTEXT_MINOR_VERSION_ARB, 6,
+			WGL_CONTEXT_MINOR_VERSION_ARB, 5,
 			0
 		};
 
@@ -156,8 +153,6 @@ namespace vnaon_scenes {
 			return false;
 		}
 
-		ShowWindow(this->_hWnd, SW_SHOW);
-
 		this->wglSwapIntervalEXT(1);
 
 		return true;
@@ -172,14 +167,17 @@ namespace vnaon_scenes {
 
 	void render_context::process() {
 
-		if ( init_opengl() && init() ) {
-			SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
-			while ( is_alive() ) {
+		if ( !init_opengl() )
+			return;
 
-				p_controller->render();
+		if ( !init() )
+			return;
 
-				SwapBuffers(_device_context);
-			}
+		while ( is_alive() ) {
+
+			p_controller->render();
+
+			SwapBuffers(_device_context);
 		}
 
 		if ( p_controller != nullptr ) {
@@ -187,7 +185,6 @@ namespace vnaon_scenes {
 			delete p_controller;
 		}
 
-		PostQuitMessage(0);
 	}
 
 	LRESULT render_context::fake_procedure(HWND window_handle, UINT message, WPARAM param_w, LPARAM param_l) {
