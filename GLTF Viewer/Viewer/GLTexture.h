@@ -17,7 +17,7 @@ namespace vnaon_gl {
 		/// <summary>
 		/// A samplar used for GLtexture.
 		/// </summary>
-		struct SAMPLAR {
+		struct SAMPLER {
 			GLint	level;
 			GLsizei width;
 			GLsizei height;
@@ -30,13 +30,13 @@ namespace vnaon_gl {
 		};
 
 	protected:
-		SAMPLAR samplar;
+		SAMPLER samplar;
 
 	public:
-		GLtexture(GLuint arg_name, SAMPLAR arg_samplar);
+		GLtexture(GLuint arg_name, SAMPLER arg_samplar);
 		~GLtexture();
 
-		static p_texture create(GLuint arg_name, SAMPLAR arg_samplar);
+		static p_texture create(GLuint arg_name, SAMPLER arg_samplar);
 
 	};
 

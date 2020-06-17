@@ -121,7 +121,7 @@ namespace vnaon_gl {
 		/// </summary>
 		p_texture create_texture_from_file(
 			const std::string &FILE_LOCATION,
-			GLtexture::SAMPLAR TEXTURE_SAMPLAR = GLtexture::SAMPLAR{ 
+			GLtexture::SAMPLER TEXTURE_SAMPLAR = GLtexture::SAMPLER{ 
 				0, 
 				1, 
 				1,

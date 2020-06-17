@@ -235,7 +235,7 @@ namespace vnaon_gl {
 		return false;
 	}
 
-	p_texture GLcontroller::create_texture_from_file(const std::string &path, GLtexture::SAMPLAR samplar) const{
+	p_texture GLcontroller::create_texture_from_file(const std::string &path, GLtexture::SAMPLER samplar) const{
 		p_texture ret = nullptr;
 		vnaon_common::p_bitmap img = vnaon_common::bitmap_img::create_from_file(path);
 		if ( img != nullptr ) {
@@ -307,7 +307,7 @@ namespace vnaon_gl {
 	}
 
 	p_texture GLcontroller::_create_empty_texture() const {
-		GLtexture::SAMPLAR samplar{ 0, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT };
+		GLtexture::SAMPLER samplar{ 0, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT };
 		GLuint hTex;
 		glGenTextures(1, &hTex);
 		__getRenderError("glGenTextures");
