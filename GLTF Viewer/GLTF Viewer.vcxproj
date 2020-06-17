@@ -191,7 +191,7 @@ XCOPY "D:\code\vNaonGLTF viewer\GLTF Viewer\GLTF Viewer\Viewer\image" "D:\code\v
     <ClInclude Include="Viewer\GLprogram.h" />
     <ClInclude Include="Viewer\GLskybox.h" />
     <ClInclude Include="Viewer\GLtexture.h" />
-    <ClInclude Include="Viewer\GLTFobject.h" />
+    <ClInclude Include="Viewer\scenes_gltf.h" />
     <ClInclude Include="Viewer\GLbuffer.h" />
     <ClInclude Include="Viewer\bitmap_img.h" />
     <ClInclude Include="Viewer\common_context.h" />

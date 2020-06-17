@@ -125,9 +125,6 @@
     <ClInclude Include="Viewer\bitmap_img.h">
       <Filter>標頭檔\common</Filter>
     </ClInclude>
-    <ClInclude Include="Viewer\GLTFobject.h">
-      <Filter>標頭檔\opengl</Filter>
-    </ClInclude>
     <ClInclude Include="Viewer\GLskybox.h">
       <Filter>標頭檔\opengl</Filter>
     </ClInclude>
@@ -153,6 +150,9 @@
       <Filter>標頭檔\opengl</Filter>
     </ClInclude>
     <ClInclude Include="Viewer\scenes_move_engine.h">
+      <Filter>標頭檔\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\scenes_gltf.h">
       <Filter>標頭檔\scenes</Filter>
     </ClInclude>
   </ItemGroup>

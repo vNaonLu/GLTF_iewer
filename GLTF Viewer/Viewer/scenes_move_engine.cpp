@@ -63,6 +63,7 @@ namespace vnaon_scenes {
 	
 
 	//===
+	const double scenes_move_engine::move_pannig::DIF_PER_MILLI = 0.25 / 1000.0;
 	scenes_move_engine::move_pannig::move_pannig() : move_function() {
 		_clear();
 	}
@@ -87,6 +88,16 @@ namespace vnaon_scenes {
 		_history_pos = glm::vec2(0.0);
 	}
 
+	void scenes_move_engine::move_pannig::do_physical(double &arg_angle, double arg_tick_count) {
+		if ( arg_angle > 0 ) {
+			arg_angle -= DIF_PER_MILLI * arg_tick_count;
+			if ( arg_angle < 0 ) arg_angle = 0;
+		} else {
+			arg_angle += DIF_PER_MILLI * arg_tick_count;
+			if ( arg_angle > 0 ) arg_angle = 0;
+		}
+	}
+
 	void scenes_move_engine::move_pannig::do_moving(glm::vec3 &arg_out) {
 		if ( _hori_speed != 0 ) { 
 			glm::dmat4 rot = glm::rotate(glm::dmat4(1.0), _hori_speed, glm::dvec3(0.0, 1.0, 0.0));
@@ -109,7 +120,13 @@ namespace vnaon_scenes {
 			_vert_speed = y_difference * 90.0 / arg_tick_count;
 
 			_history_pos = arg_parm;
+		} else {
+			if ( _hori_speed != 0 )
+				do_physical(_hori_speed, arg_tick_count);
+			if ( _vert_speed != 0 )
+				do_physical(_vert_speed, arg_tick_count);
 		}
+
 	}
 
 }

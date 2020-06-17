@@ -33,6 +33,7 @@ namespace vnaon_scenes {
 
 		class move_pannig : public move_function{
 		private:
+			static const double DIF_PER_MILLI;
 			bool _mouse_down;
 			double _vert_speed; // rps
 			double _hori_speed;
@@ -44,6 +45,7 @@ namespace vnaon_scenes {
 			virtual void stop() override;
 		protected:
 			void _clear();
+			void do_physical(double &arg_angle, double arg_tick_count);
 			virtual void do_moving(glm::vec3 &arg_out) override;
 			virtual void adjust_param(double arg_tick_count, glm::vec2 arg_parm) override;
 		};
