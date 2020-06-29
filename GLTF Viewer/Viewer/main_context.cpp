@@ -1,11 +1,11 @@
 #include <functional>
 
 #include "main_context.h"
-#include "_DEBUG_OBJECT.hpp"
+#include "debug_tools.hpp"
 
 namespace vnaon_scenes {
 
-	render_context::render_context(HINSTANCE arg_hInstance, HWND arg_hWnd, int arg_width, int arg_height) : vnaon_common::_i_event_context() {
+	RenderContext::RenderContext(HINSTANCE arg_hInstance, HWND arg_hWnd, int arg_width, int arg_height) : vnaon_common::EventContext() {
 		this->p_controller = nullptr;
 		this->_hInstance = arg_hInstance;
 		this->_hWnd = arg_hWnd;
@@ -17,20 +17,20 @@ namespace vnaon_scenes {
 		this->wglSwapIntervalEXT = NULL;
 	}
 
-	render_context::~render_context() {
+	RenderContext::~RenderContext() {
 
 	}
 
-	bool render_context::init_opengl_extensions() {
+	bool RenderContext::InitOpenGLExtensions() {
 		WNDCLASSEX window_class;
 		ZeroMemory(&window_class, sizeof(window_class));
 		window_class.cbSize = sizeof(window_class);
 		window_class.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-		window_class.lpfnWndProc = fake_procedure;
+		window_class.lpfnWndProc = DummyProc;
 		window_class.hInstance = GetModuleHandle(NULL);
 		window_class.lpszClassName = "dummy";
 		if ( !RegisterClassEx(&window_class) ) {
-			DEBUGConsole::log("Failed to register dummy OpenGL window.");
+			_DebugTools_::Log("Failed to register dummy OpenGL window.");
 			return false;
 		}
 
@@ -44,7 +44,7 @@ namespace vnaon_scenes {
 			window_class.hInstance, NULL
 		);
 		if ( !dummy_wnd ) {
-			DEBUGConsole::log("Failed to create dummy OpenGL window.");
+			_DebugTools_::Log("Failed to Create dummy OpenGL window.");
 			return false;
 		}
 		HDC dummy_device_context = GetDC(dummy_wnd);
@@ -59,23 +59,23 @@ namespace vnaon_scenes {
 
 		int pixel_format = ChoosePixelFormat(dummy_device_context, &pfd);
 		if ( !pixel_format ) {
-			DEBUGConsole::log("Failed to find a suitable pixel format.");
+			_DebugTools_::Log("Failed to find a suitable pixel format.");
 			return false;
 		}
 		
 		if ( !SetPixelFormat(dummy_device_context, pixel_format, &pfd) ) {
-			DEBUGConsole::log("Failed to set the pixel format.");
+			_DebugTools_::Log("Failed to set the pixel format.");
 			return false;
 		}
 
 		HGLRC dummy_render_context = wglCreateContext(dummy_device_context);
 		if ( !dummy_render_context ) {
-			DEBUGConsole::log("Failed to create a dummy OpenGL rendering context.");
+			_DebugTools_::Log("Failed to Create a dummy OpenGL rendering context.");
 			return false;
 		}
 
 		if ( !wglMakeCurrent(dummy_device_context, dummy_render_context) ) {
-			DEBUGConsole::log("Failed to activate dummy OpenGL rendering context.");
+			_DebugTools_::Log("Failed to activate dummy OpenGL rendering context.");
 			return false;
 		}
 
@@ -91,8 +91,8 @@ namespace vnaon_scenes {
 		return true;
 	}
 
-	bool render_context::init_opengl() {
-		if ( !init_opengl_extensions() ) return false;
+	bool RenderContext::InitOpenGL() {
+		if ( !InitOpenGLExtensions() ) return false;
 
 		this->_device_context = GetDC(this->_hWnd);
 
@@ -115,17 +115,17 @@ namespace vnaon_scenes {
 		this->wglChoosePixelFormatARB(this->_device_context, pixel_attributes, NULL, 1, &pixel_format, &num_formats);
 
 		if ( !num_formats ) {
-			DEBUGConsole::log("Failed to set the pixel format.");
+			_DebugTools_::Log("Failed to set the pixel format.");
 			return false;
 		}
 
 		PIXELFORMATDESCRIPTOR pfd;
 		if ( !DescribePixelFormat(this->_device_context, pixel_format, sizeof(pfd), &pfd) ) {
-			DEBUGConsole::log("Failed to retrieve PFD for selected pixel format.");
+			_DebugTools_::Log("Failed to retrieve PFD for selected pixel format.");
 			return false;
 		}
 		if ( !SetPixelFormat(this->_device_context, pixel_format, &pfd) ) {
-			DEBUGConsole::log("Failed to set the pixel format.");
+			_DebugTools_::Log("Failed to set the pixel format.");
 			return false;
 		}		
 
@@ -138,18 +138,18 @@ namespace vnaon_scenes {
 		this->_render_context = this->wglCreateContextAttribsARB(this->_device_context, 0, context_attributes);
 
 		if ( !this->_render_context ) {
-			DEBUGConsole::log("Failed to create the render context.");
+			_DebugTools_::Log("Failed to Create the Render context.");
 			return false;
 		}
 
 		if ( !wglMakeCurrent(this->_device_context, this->_render_context) ) {
-			DEBUGConsole::log("Failed to activate the render context.");
+			_DebugTools_::Log("Failed to activate the Render context.");
 			return false;
 		}
 
 
 		if ( !gladLoadGL() ) {
-			DEBUGConsole::log("Failed to load OpenGL");
+			_DebugTools_::Log("Failed to load OpenGL");
 			return false;
 		}
 
@@ -158,36 +158,36 @@ namespace vnaon_scenes {
 		return true;
 	}
 
-	bool render_context::init() {
-		this->p_controller = new vnaon_scenes::view_controller(_viewport.x, _viewport.y);
+	bool RenderContext::Init() {
+		this->p_controller = new vnaon_scenes::ScenesViewController(_viewport.x, _viewport.y);
 
 		bool ret = true;
 		return ret;
 	}
 
-	void render_context::process() {
+	void RenderContext::Process() {
 
-		if ( !init_opengl() )
+		if ( !InitOpenGL() )
 			return;
 
-		if ( !init() )
+		if ( !Init() )
 			return;
 
-		while ( is_alive() ) {
+		while ( IsValid() ) {
 
-			p_controller->render();
+			p_controller->Render();
 
 			SwapBuffers(_device_context);
 		}
 
 		if ( p_controller != nullptr ) {
-			p_controller->close();
+			p_controller->Close();
 			delete p_controller;
 		}
 
 	}
 
-	LRESULT render_context::fake_procedure(HWND window_handle, UINT message, WPARAM param_w, LPARAM param_l) {
+	LRESULT RenderContext::DummyProc(HWND window_handle, UINT message, WPARAM param_w, LPARAM param_l) {
 		switch ( message ) {
 		case WM_DESTROY:
 			PostQuitMessage(0);

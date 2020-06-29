@@ -12,26 +12,26 @@
 namespace vnaon_scenes {
 
 
-	class scenes_move_engine {
+	class MovingEngine {
 
 	private:
 		typedef enum{ PANNING } MOVING_TYPE;
 		glm::vec3 _pos;
 
-		class move_function {
+		class MovingEntity {
 		public:
-			move_function();
-			~move_function();
-			void moving(glm::vec3 &arg_out, double arg_tick_count, glm::vec2 arg_parm);
-			virtual void begin(double arg_tick_count, glm::vec2 arg_parm);
-			virtual void stop();
+			MovingEntity();
+			~MovingEntity();
+			void Moving(glm::vec3 &arg_out, double arg_tick_count, glm::vec2 arg_parm);
+			virtual void Begin(double arg_tick_count, glm::vec2 arg_parm);
+			virtual void Stop();
 		protected:
-			virtual void do_moving(glm::vec3 &arg_out);
-			virtual void adjust_param(double arg_tick_count, glm::vec2 arg_parm);
+			virtual void DoMoving(glm::vec3 &arg_out);
+			virtual void AdjustParameter(double arg_tick_count, glm::vec2 arg_parm);
 		};
-		typedef std::shared_ptr<move_function> p_moving;
+		typedef std::shared_ptr<MovingEntity> MovingEntity_p;
 
-		class move_pannig : public move_function{
+		class MovingPanning : public MovingEntity{
 		private:
 			static const double DIF_PER_MILLI;
 			bool _mouse_down;
@@ -39,31 +39,32 @@ namespace vnaon_scenes {
 			double _hori_speed;
 			glm::vec2 _history_pos;
 		public:
-			move_pannig();
-			~move_pannig();
-			virtual void begin(double arg_tick_count, glm::vec2 arg_parm) override;
-			virtual void stop() override;
+			MovingPanning();
+			~MovingPanning();
+			virtual void Begin(double arg_tick_count, glm::vec2 arg_parm) override;
+			virtual void Stop() override;
 		protected:
-			void _clear();
-			void do_physical(double &arg_angle, double arg_tick_count);
-			virtual void do_moving(glm::vec3 &arg_out) override;
-			virtual void adjust_param(double arg_tick_count, glm::vec2 arg_parm) override;
+			void Clear();
+			void DoPhysical(double &arg_angle, double arg_tick_count);
+			virtual void DoMoving(glm::vec3 &arg_out) override;
+			virtual void AdjustParameter(double arg_tick_count, glm::vec2 arg_parm) override;
 		};
 
-		std::map<MOVING_TYPE, p_moving> _moving_function;
+
+		std::map<MOVING_TYPE, MovingEntity_p> _moving_entity;
 
 	public:
-		scenes_move_engine();
-		~scenes_move_engine();
+		MovingEngine();
+		~MovingEngine();
 
-		glm::vec3 get_pos() const;
+		glm::vec3 GetPosition() const;
 
-		void do_moving(double arg_tick_count, glm::vec2 arg_parm);
+		void DoMoving(double arg_tick_count, glm::vec2 arg_parm);
 
-		void stop();
+		void Stop();
 
-		void left_mouse_down(double arg_tick_count, glm::vec2 arg_parm);
-		void left_mouse_up();
+		void LeftMouseDown(double arg_tick_count, glm::vec2 arg_parm);
+		void LeftMouseUp();
 
 	};
 

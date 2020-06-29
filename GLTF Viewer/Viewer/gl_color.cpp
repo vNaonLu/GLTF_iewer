@@ -1,24 +1,24 @@
 #include <stdexcept>
-#include "GLcolor.h"
+#include "gl_color.h"
 
 namespace vnaon_gl {
 
-	GLcolor::GLcolor() 
+	GLColor::GLColor() 
 		:glm::vec4(0.0f, 0.0f, 0.0f, 0.0f) {
 	}
 
-	GLcolor::GLcolor(const float arg_r, const float arg_g, const float arg_b, const float arg_a)
+	GLColor::GLColor(const float arg_r, const float arg_g, const float arg_b, const float arg_a)
 		: glm::vec4(arg_r, arg_g, arg_b, arg_a) {
 	}
 
-	GLcolor::GLcolor(const std::string &arg_hex) {
-		_parse_hex_str(arg_hex, *this);
+	GLColor::GLColor(const std::string &arg_hex) {
+		Parse(arg_hex, *this);
 	}
 
-	GLcolor::~GLcolor() {
+	GLColor::~GLColor() {
 	}
 
-	bool GLcolor::_parse_hex_str(const std::string &arg_hex, GLcolor &arg_out) {
+	bool GLColor::Parse(const std::string &arg_hex, GLColor &arg_out) {
 		bool ret = false;
 
 		if ( arg_hex.find('#') != std::string::npos ) {

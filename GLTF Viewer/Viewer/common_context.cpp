@@ -4,35 +4,35 @@
 
 namespace vnaon_common {
 	// ---
-	_i_event_task::_i_event_task() {
+	InteraceEvent::InteraceEvent() {
 		_abort = false;
 	}
-	_i_event_task::~_i_event_task() {
+	InteraceEvent::~InteraceEvent() {
 	}
-	void _i_event_task::excute() {
-		if ( !_abort ) process();
+	void InteraceEvent::excute() {
+		if ( !_abort ) Process();
 	}
-	void _i_event_task::abort() {
+	void InteraceEvent::Expire() {
 		_abort = true;
 	}
-	void _i_event_task::process() {
+	void InteraceEvent::Process() {
 	}
 
 
 
-	_i_event_context::_i_event_context() {
+	EventContext::EventContext() {
 		_abort = false;
-		context_thread_p = new std::thread (&_i_event_context::process, this);
+		context_thread_p = new std::thread (&EventContext::Process, this);
 	}
-	_i_event_context::~_i_event_context() {
-		abort();
+	EventContext::~EventContext() {
+		Expire();
 		context_thread_p->join();
 		delete context_thread_p;
 	}
-	bool _i_event_context::is_alive() const {
+	bool EventContext::IsValid() const {
 		return !_abort;
 	}
-	void _i_event_context::push(event_task_p command) {
+	void EventContext::PushEvent(InteraceEvent_p command) {
 		if ( command == nullptr ) return;
 
 		_mutex_event_task.lock();
@@ -41,11 +41,11 @@ namespace vnaon_common {
 
 		_cond_var.notify_one();
 	}
-	void _i_event_context::abort() {
+	void EventContext::Expire() {
 		_abort = true;
 		_cond_var.notify_one();
 	}
-	bool _i_event_context::stop_if_need() {
+	bool EventContext::IdleIfNeed() {
 		_mutex_event_task.lock();
 		bool empty = _arr_event_task.empty();
 		_mutex_event_task.unlock();
@@ -55,16 +55,16 @@ namespace vnaon_common {
 		}
 		return !_abort;
 	}
-	event_task_p _i_event_context::pop() {
+	InteraceEvent_p EventContext::PopEvent() {
 		_mutex_event_task.lock();
-		event_task_p task = _arr_event_task.front();
+		InteraceEvent_p task = _arr_event_task.front();
 		_arr_event_task.pop();
 		_mutex_event_task.unlock();
 		return task;
 	}
-	void _i_event_context::process() {
-		while ( stop_if_need() ) {
-			event_task_p task = pop();
+	void EventContext::Process() {
+		while ( IdleIfNeed() ) {
+			InteraceEvent_p task = PopEvent();
 			task->excute();
 		}
 	}

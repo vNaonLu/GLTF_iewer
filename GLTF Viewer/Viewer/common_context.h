@@ -13,41 +13,41 @@ namespace vnaon_common {
 	 * An interface class of task.
 	 * Used for delivering and excutint in thread loop.
 	 */
-	class _i_event_task{
+	class InteraceEvent{
 	private:
 		bool _abort;
 	public:
-		_i_event_task();
-		~_i_event_task();
+		InteraceEvent();
+		~InteraceEvent();
 		void excute();
-		void abort();
+		void Expire();
 	protected:
-		virtual void process();
+		virtual void Process();
 	};
-	typedef std::shared_ptr<_i_event_task> event_task_p;
+	typedef std::shared_ptr<InteraceEvent> InteraceEvent_p;
 
 	/*
 	 * A generic task for main thread.
 	 */
 	template<class T>
-	class generic_event_task : public _i_event_task {
+	class GenericEvent : public InteraceEvent {
 	public:
-		typedef std::function<void(T)> task_process;
+		typedef std::function<void(T)> EventProccessor;
 	private:
 		T _task;
-		task_process _process;
+		EventProccessor _process;
 	public:
-		static event_task_p create(T arg_task, task_process ard_proc) {
-			return std::make_shared<generic_event_task<T>>(arg_task, ard_proc);
+		static InteraceEvent_p Create(T arg_task, EventProccessor ard_proc) {
+			return std::make_shared<GenericEvent<T>>(arg_task, ard_proc);
 		}
-		generic_event_task(T arg_task, task_process ard_proc){
+		GenericEvent(T arg_task, EventProccessor ard_proc){
 			_task = arg_task;
 			_process = ard_proc;
 		}
-		~generic_event_task() {
+		~GenericEvent() {
 		}
 	protected:
-		virtual void process() override {
+		virtual void Process() override {
 			_process(_task);
 		}
 	};
@@ -56,25 +56,25 @@ namespace vnaon_common {
 	 * An interface class of thread context.
 	 * Used for excuting the mission in several thread.
 	 */
-	class _i_event_context {	
+	class EventContext {	
 	private:
 		bool _abort;
 		std::mutex _mutex_event_task;
-		std::queue<event_task_p> _arr_event_task;
+		std::queue<InteraceEvent_p> _arr_event_task;
 		std::mutex _mutex_cond_var;
 		std::condition_variable _cond_var;
 	protected:
 		std::thread *context_thread_p;
 	public:
-		_i_event_context();
-		~_i_event_context();
-		bool is_alive() const;
-		void push(event_task_p command);
-		void abort();
+		EventContext();
+		~EventContext();
+		bool IsValid() const;
+		void PushEvent(InteraceEvent_p command);
+		void Expire();
 	protected:
-		bool stop_if_need();
-		event_task_p pop();
-		virtual void process();	
+		bool IdleIfNeed();
+		InteraceEvent_p PopEvent();
+		virtual void Process();	
 	};
 
 }

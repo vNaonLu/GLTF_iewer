@@ -39,38 +39,8 @@
     <ClCompile Include="main\main.cpp">
       <Filter>資源檔</Filter>
     </ClCompile>
-    <ClCompile Include="Viewer\_DEBUG_OBJECT.hpp">
-      <Filter>標頭檔</Filter>
-    </ClCompile>
-    <ClCompile Include="Viewer\GLcontroller.cpp">
-      <Filter>資源檔\opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="Viewer\GLtexture.cpp">
-      <Filter>資源檔\opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="Viewer\GLprogram.cpp">
-      <Filter>資源檔\opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="Viewer\GLbuffer.cpp">
-      <Filter>資源檔\opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="Viewer\GLobject.cpp">
-      <Filter>資源檔\opengl</Filter>
-    </ClCompile>
     <ClCompile Include="Viewer\common_context.cpp">
       <Filter>資源檔\common</Filter>
-    </ClCompile>
-    <ClCompile Include="Viewer\file_manager.cpp">
-      <Filter>資源檔\common</Filter>
-    </ClCompile>
-    <ClCompile Include="Viewer\GLcolor.cpp">
-      <Filter>資源檔\opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="Viewer\bitmap_img.cpp">
-      <Filter>資源檔\common</Filter>
-    </ClCompile>
-    <ClCompile Include="Viewer\GLskybox.cpp">
-      <Filter>資源檔\opengl</Filter>
     </ClCompile>
     <ClCompile Include="Viewer\scenes_engine.cpp">
       <Filter>資源檔\scenes</Filter>
@@ -81,52 +51,55 @@
     <ClCompile Include="Viewer\main_context.cpp">
       <Filter>資源檔</Filter>
     </ClCompile>
-    <ClCompile Include="Viewer\camera.cpp">
-      <Filter>資源檔\common</Filter>
-    </ClCompile>
-    <ClCompile Include="Viewer\scenes_object.cpp">
-      <Filter>資源檔\scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Viewer\scenes_skybox.cpp">
       <Filter>資源檔\scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Viewer\GLuniform.cpp">
-      <Filter>資源檔\opengl</Filter>
     </ClCompile>
     <ClCompile Include="Viewer\scenes_move_engine.cpp">
       <Filter>資源檔\scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Viewer\gl_entity.cpp">
+      <Filter>資源檔\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\gl_buffer_object.cpp">
+      <Filter>資源檔\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\gl_color.cpp">
+      <Filter>資源檔\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\gl_program.cpp">
+      <Filter>資源檔\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\gl_skybox.cpp">
+      <Filter>資源檔\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\gl_texture.cpp">
+      <Filter>資源檔\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\gl_uniform.cpp">
+      <Filter>資源檔\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\gl_manager.cpp">
+      <Filter>資源檔\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\scenes_entity.cpp">
+      <Filter>資源檔\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\common_bitmap.cpp">
+      <Filter>資源檔\common</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\common_camera.cpp">
+      <Filter>資源檔\common</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\common_file_manager.cpp">
+      <Filter>資源檔\common</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\debug_tools.hpp">
+      <Filter>標頭檔</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Viewer\GLcontroller.h">
-      <Filter>標頭檔\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="Viewer\GLtexture.h">
-      <Filter>標頭檔\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="Viewer\GLprogram.h">
-      <Filter>標頭檔\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="Viewer\GLbuffer.h">
-      <Filter>標頭檔\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="Viewer\GLobject.h">
-      <Filter>標頭檔\opengl</Filter>
-    </ClInclude>
     <ClInclude Include="Viewer\common_context.h">
       <Filter>標頭檔\common</Filter>
-    </ClInclude>
-    <ClInclude Include="Viewer\file_manager.h">
-      <Filter>標頭檔\common</Filter>
-    </ClInclude>
-    <ClInclude Include="Viewer\GLcolor.h">
-      <Filter>標頭檔\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="Viewer\bitmap_img.h">
-      <Filter>標頭檔\common</Filter>
-    </ClInclude>
-    <ClInclude Include="Viewer\GLskybox.h">
-      <Filter>標頭檔\opengl</Filter>
     </ClInclude>
     <ClInclude Include="Viewer\scenes_engine.h">
       <Filter>標頭檔\scenes</Filter>
@@ -137,23 +110,50 @@
     <ClInclude Include="Viewer\main_context.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="Viewer\camera.h">
-      <Filter>標頭檔\common</Filter>
-    </ClInclude>
-    <ClInclude Include="Viewer\scenes_object.h">
-      <Filter>標頭檔\scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Viewer\scenes_skybox.h">
       <Filter>標頭檔\scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Viewer\GLuniform.h">
-      <Filter>標頭檔\opengl</Filter>
     </ClInclude>
     <ClInclude Include="Viewer\scenes_move_engine.h">
       <Filter>標頭檔\scenes</Filter>
     </ClInclude>
     <ClInclude Include="Viewer\scenes_gltf.h">
       <Filter>標頭檔\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\gl_entity.h">
+      <Filter>標頭檔\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\gl_buffer_object.h">
+      <Filter>標頭檔\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\gl_color.h">
+      <Filter>標頭檔\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\gl_program.h">
+      <Filter>標頭檔\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\gl_skybox.h">
+      <Filter>標頭檔\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\gl_texture.h">
+      <Filter>標頭檔\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\gl_uniform.h">
+      <Filter>標頭檔\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\gl_manager.h">
+      <Filter>標頭檔\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\scenes_entity.h">
+      <Filter>標頭檔\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\common_bitmap.h">
+      <Filter>標頭檔\common</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\common_camera.h">
+      <Filter>標頭檔\common</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\common_file_manager.h">
+      <Filter>標頭檔\common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

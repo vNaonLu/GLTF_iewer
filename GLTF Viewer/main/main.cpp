@@ -1,19 +1,19 @@
 #include <Windows.h>
 #include <Windowsx.h>
 #include "..\Viewer\main_context.h"
-#include "..\Viewer\_DEBUG_OBJECT.hpp"
+#include "..\Viewer\debug_tools.hpp"
 
 #pragma warning (disable: 4996)
-vnaon_scenes::render_context *g_context = nullptr;
+vnaon_scenes::RenderContext *g_context = nullptr;
 
-LRESULT CALLBACK window_procedure(HWND arg_hWnd, UINT arg_msg, WPARAM arg_wParam, LPARAM arg_lParam) {
+LRESULT CALLBACK WndProc(HWND arg_hWnd, UINT arg_msg, WPARAM arg_wParam, LPARAM arg_lParam) {
     if ( g_context != nullptr && g_context->p_controller != nullptr ) {
         switch ( arg_msg ) {
         case WM_LBUTTONUP:
         {
             int xPos = GET_X_LPARAM(arg_lParam);
             int yPos = GET_Y_LPARAM(arg_lParam);
-            g_context->p_controller->on_left_mouse_up(xPos, yPos);
+            g_context->p_controller->OnLeftMouseUp(xPos, yPos);
         }
         return 0;
         //----
@@ -21,7 +21,7 @@ LRESULT CALLBACK window_procedure(HWND arg_hWnd, UINT arg_msg, WPARAM arg_wParam
         {
             int xPos = GET_X_LPARAM(arg_lParam);
             int yPos = GET_Y_LPARAM(arg_lParam);
-            g_context->p_controller->on_left_mouse_down(xPos, yPos);
+            g_context->p_controller->OnLeftMouseDown(xPos, yPos);
         }
         return 0;
         //----
@@ -29,7 +29,7 @@ LRESULT CALLBACK window_procedure(HWND arg_hWnd, UINT arg_msg, WPARAM arg_wParam
         {
             int xPos = GET_X_LPARAM(arg_lParam);
             int yPos = GET_Y_LPARAM(arg_lParam);
-            g_context->p_controller->on_mouse_move(xPos, yPos);
+            g_context->p_controller->OnMouseMove(xPos, yPos);
         }
         return 0;
         //----
@@ -37,19 +37,19 @@ LRESULT CALLBACK window_procedure(HWND arg_hWnd, UINT arg_msg, WPARAM arg_wParam
         {            
             RECT *view_rect;
             view_rect = (RECT *) arg_lParam;
-            g_context->p_controller->on_viewport_change((int)(view_rect->right - view_rect->left), (int)(view_rect->bottom - view_rect->top));
+            g_context->p_controller->OnViewportChange((int)(view_rect->right - view_rect->left), (int)(view_rect->bottom - view_rect->top));
         }
         return 0;
         //----
         case WM_SIZE:
         {
-            g_context->p_controller->on_viewport_change(LOWORD(arg_lParam), HIWORD(arg_lParam));
+            g_context->p_controller->OnViewportChange(LOWORD(arg_lParam), HIWORD(arg_lParam));
         }
         return 0;
         //----
         case WM_CLOSE:
         {
-            g_context->abort();
+            g_context->Expire();
         }
         return 0;
         }
@@ -71,7 +71,7 @@ int WINAPI WinMain(HINSTANCE instance_handle, HINSTANCE prev_instance_handle, PS
     ZeroMemory(&window_class, sizeof(window_class));
     window_class.cbSize = sizeof(window_class);
     window_class.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-    window_class.lpfnWndProc = window_procedure;
+    window_class.lpfnWndProc = WndProc;
     window_class.hInstance = instance_handle;
     window_class.hCursor = LoadCursor(0, IDC_ARROW),
     window_class.lpszClassName = "wglWnd";
@@ -85,7 +85,7 @@ int WINAPI WinMain(HINSTANCE instance_handle, HINSTANCE prev_instance_handle, PS
         NULL, NULL,
         instance_handle, NULL
     );
-    g_context = new vnaon_scenes::render_context(instance_handle, window_handle, 1280, 1080);
+    g_context = new vnaon_scenes::RenderContext(instance_handle, window_handle, 1280, 1080);
 
     
     ShowWindow(window_handle, cmd_show);
@@ -93,7 +93,7 @@ int WINAPI WinMain(HINSTANCE instance_handle, HINSTANCE prev_instance_handle, PS
     freopen("CONOUT$", "w", stdout);
 
     MSG msg;
-    while ( g_context->is_alive() ) {
+    while ( g_context->IsValid() ) {
         if ( PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) ) {
             if ( msg.message == WM_QUIT )
                 break;

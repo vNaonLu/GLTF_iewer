@@ -7,92 +7,92 @@
 #include <map>
 
 
-#include "scenes_object.h"
-#include "bitmap_img.h"
-#include "GLobject.h"
+#include "scenes_entity.h"
+#include "common_bitmap.h"
+#include "gl_entity.h"
 
 
 namespace vnaon_scenes {
 
-	class GLTF20 : public scenes_object {
+	class GLTF20 : public ScenesEntity {
 
 	private:
-		using Json = nlohmann::json;
+		using json = nlohmann::json;
 
-		class sampler {
+		class Sampler {
 		public:
 			std::string name;
 			GLenum magFilter;
 			GLenum minFilter;
-			GLenum wrapS;
-			GLenum wrapT;
+			GLenum wrap_s;
+			GLenum wrap_t;
 		public:
-			sampler();
-			~sampler();
-			vnaon_gl::GLtexture::SAMPLER get_sampler() const;
+			Sampler();
+			~Sampler();
+			vnaon_gl::GLTexture::SAMPLER get_sampler() const;
 		};
-		typedef std::shared_ptr<sampler> p_sampler;
-		typedef std::vector<p_sampler> sampler_array;
+		typedef std::shared_ptr<Sampler> Sampler_p;
+		typedef std::vector<Sampler_p> SamplerArray;
 
-		class image {
+		class Image {
 		public:
 			std::string name;
 			std::string uri;
 			std::string mimeType;
-			GLintptr bufferView;
-			vnaon_common::p_bitmap data;
+			GLintptr BufferView;
+			vnaon_common::BitmapImage_p data;
 		public:
-			image();
-			~image();
-			vnaon_common::p_bitmap get_image() const;
+			Image();
+			~Image();
+			vnaon_common::BitmapImage_p get_image() const;
 		};
-		typedef std::shared_ptr<image> p_image;
-		typedef std::vector<p_image> image_array;
+		typedef std::shared_ptr<Image> Image_p;
+		typedef std::vector<Image_p> ImageArray;
 
-		class buffer {
+		class Buffer {
 		public:
 			std::string name;
 			std::string uri;
 			GLsizei byteLength;
 			GLchar *data;
 		public:
-			buffer();
-			~buffer();
+			Buffer();
+			~Buffer();
 		};
-		typedef std::shared_ptr<buffer> p_buffer;
-		typedef std::vector<p_buffer> buffer_array;
+		typedef std::shared_ptr<Buffer> Buffer_p;
+		typedef std::vector<Buffer_p> BufferArray;
 
-		class texture {
+		class Texture {
 		public:
 			std::string name;
-			GLintptr sampler;
+			GLintptr Sampler;
 			GLintptr source;
-			vnaon_gl::p_texture data;
+			vnaon_gl::GLTexture_p data;
 		public:
-			texture();
-			~texture();
+			Texture();
+			~Texture();
 
-			vnaon_gl::p_texture get_texture() const;
+			vnaon_gl::GLTexture_p get_texture() const;
 		};
-		typedef std::shared_ptr<texture> p_texture;
-		typedef std::vector<p_texture> texture_array;
+		typedef std::shared_ptr<Texture> Texture_p;
+		typedef std::vector<Texture_p> TextureArray;
 
-		class bufferView {
+		class BufferView {
 		public:
 			std::string name;
-			GLintptr buffer;
+			GLintptr Buffer;
 			GLsizei byteLength;
 			GLsizeiptr byteOffset;
 			GLsizei byteStride;
 			GLenum target;
 		public:
-			bufferView();
-			~bufferView();
+			BufferView();
+			~BufferView();
 		};
-		typedef std::shared_ptr<bufferView> p_bufferView;
-		typedef std::vector<p_bufferView> bufferView_array;
+		typedef std::shared_ptr<BufferView> BufferView_p;
+		typedef std::vector<BufferView_p> BufferViewArray;
 
-		class material {
+		class Material {
 		public:
 			struct texture_info {
 				GLsizeiptr index;
@@ -122,16 +122,16 @@ namespace vnaon_scenes {
 			GLfloat alphaCutoff;
 			GLboolean doubleSided;
 		public:
-			material();
-			~material();
+			Material();
+			~Material();
 		};
-		typedef std::shared_ptr<material> p_material;
-		typedef std::vector<p_material> material_array;
+		typedef std::shared_ptr<Material> Material_p;
+		typedef std::vector<Material_p> MaterialArray;
 
-		class accessor {
+		class Accessor {
 		public:
 			std::string name;
-			GLintptr bufferView;
+			GLintptr BufferView;
 			GLsizeiptr byteOffset;
 			GLenum componentType;
 			GLboolean normalized;
@@ -142,32 +142,29 @@ namespace vnaon_scenes {
 			struct {
 				GLint count;
 				struct {
-					GLintptr bufferView;
+					GLintptr BufferView;
 					GLsizeiptr byteOffset;
 					GLenum componentType;
 				}indices;
 				struct {
-					GLintptr bufferView;
+					GLintptr BufferView;
 					GLsizeiptr byteOffset;
 				}values;
 			}sparse;
 		public:
-			accessor();
-			~accessor();
+			Accessor();
+			~Accessor();
 		};
-		typedef std::shared_ptr<accessor> p_accessor;
-		typedef std::vector<p_accessor> accessor_array;
+		typedef std::shared_ptr<Accessor> Accessor_p;
+		typedef std::vector<Accessor_p> AccessorArray;
 
 		// TODO: animation
-		//class animation;
-		//typedef std::shared_ptr<animation> p_animation;
-		//typedef std::vector<p_animation> animation_array;
 
-		class mesh {
+		class Mesh {
 			struct primitive {
 				std::map<std::string, GLintptr> attributes;
 				GLintptr indices;
-				GLintptr material;
+				GLintptr Material;
 				GLenum mode;
 			};
 		public:
@@ -175,55 +172,52 @@ namespace vnaon_scenes {
 			std::vector<primitive> primitives;
 			std::vector<GLfloat> weights;
 		public:
-			mesh();
-			~mesh();
+			Mesh();
+			~Mesh();
 		};
-		typedef std::shared_ptr<mesh> p_mesh;
-		typedef std::vector<p_mesh> mesh_array;
+		typedef std::shared_ptr<Mesh> Mesh_p;
+		typedef std::vector<Mesh_p> MeshArray;
 
 		// TODO: skin
-		//class skin;
-		//typedef std::shared_ptr<skin> p_skin;
-		//typedef std::vector<p_skin> skin_array;
 
-		class node {
+		class Node {
 		public:
 			std::string name;
 			std::vector<GLintptr> children;
 			glm::mat4 matrix;
-			GLintptr mesh;
+			GLintptr Mesh;
 			glm::quat rotation;
 			glm::vec3 scale;
 			glm::vec3 translaion;
 		public:
-			node();
-			~node();
+			Node();
+			~Node();
 		};
-		typedef std::shared_ptr<node> p_node;
-		typedef std::vector<p_node> node_array;
+		typedef std::shared_ptr<Node> Node_p;
+		typedef std::vector<Node_p> NodeArray;
 
-		class scene {
+		class Scene {
 		public:
 			std::string name;
 			std::vector<GLintptr> nodes;
 		public:
-			scene();
-			~scene();
+			Scene();
+			~Scene();
 		};
-		typedef std::shared_ptr<scene> p_scene;
-		typedef std::vector<p_scene> scene_array;
+		typedef std::shared_ptr<Scene> Scene_p;
+		typedef std::vector<Scene_p> SceneArray;
 
 		protected:
-			accessor_array accessors;
-			buffer_array buffers;
-			bufferView_array bufferViews;
-			image_array images;
-			material_array materials;
-			mesh_array meshes;
-			node_array nodes;
-			sampler_array samplers;
-			scene_array scenes;
-			texture_array textures;
+			AccessorArray accessors;
+			BufferArray buffers;
+			BufferViewArray bufferViews;
+			ImageArray images;
+			MaterialArray materials;
+			MeshArray meshes;
+			NodeArray nodes;
+			SamplerArray samplers;
+			SceneArray scenes;
+			TextureArray textures;
 	};
 
 }

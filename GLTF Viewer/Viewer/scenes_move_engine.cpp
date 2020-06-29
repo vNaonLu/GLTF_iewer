@@ -1,94 +1,94 @@
 #include "scenes_move_engine.h"
 
 
-#include "_DEBUG_OBJECT.hpp"
+#include "debug_tools.hpp"
 
 
 namespace vnaon_scenes {
 
-	scenes_move_engine::scenes_move_engine() {
+	MovingEngine::MovingEngine() {
 		_pos = glm::vec3(1, sin(glm::radians(30.0f)), 1);
-		_moving_function[PANNING] = std::make_shared<move_pannig>();
+		_moving_entity[PANNING] = std::make_shared<MovingPanning>();
 	}
 
-	scenes_move_engine::~scenes_move_engine() {
+	MovingEngine::~MovingEngine() {
 	}
 
-	glm::vec3 scenes_move_engine::get_pos() const {
+	glm::vec3 MovingEngine::GetPosition() const {
 		return _pos;
 	}
 
-	void scenes_move_engine::do_moving(double arg_tick_count, glm::vec2 arg_parm) {
-		for ( auto func : _moving_function ) {
-			func.second->moving(_pos, arg_tick_count, arg_parm);
+	void MovingEngine::DoMoving(double arg_tick_count, glm::vec2 arg_parm) {
+		for ( auto func : _moving_entity ) {
+			func.second->Moving(_pos, arg_tick_count, arg_parm);
 		}
 	}
 
-	void scenes_move_engine::stop() {
-		_moving_function.clear();
+	void MovingEngine::Stop() {
+		_moving_entity.clear();
 	}
 
-	void scenes_move_engine::left_mouse_down(double arg_tick_count, glm::vec2 arg_parm) {
-		_moving_function[PANNING]->begin(arg_tick_count, arg_parm);
+	void MovingEngine::LeftMouseDown(double arg_tick_count, glm::vec2 arg_parm) {
+		_moving_entity[PANNING]->Begin(arg_tick_count, arg_parm);
 	}
 
-	void scenes_move_engine::left_mouse_up() {
-		_moving_function[PANNING]->stop();
+	void MovingEngine::LeftMouseUp() {
+		_moving_entity[PANNING]->Stop();
 	}
 
 
 	//===
-	scenes_move_engine::move_function::move_function() {
+	MovingEngine::MovingEntity::MovingEntity() {
 	}
 
-	scenes_move_engine::move_function::~move_function() {
+	MovingEngine::MovingEntity::~MovingEntity() {
 	}
 
-	void scenes_move_engine::move_function::moving(glm::vec3 &arg_out, double arg_tick_count, glm::vec2 arg_parm) {
-		adjust_param(arg_tick_count, arg_parm);
-		do_moving(arg_out);
+	void MovingEngine::MovingEntity::Moving(glm::vec3 &arg_out, double arg_tick_count, glm::vec2 arg_parm) {
+		AdjustParameter(arg_tick_count, arg_parm);
+		DoMoving(arg_out);
 	}
 
-	void scenes_move_engine::move_function::begin(double arg_tick_count, glm::vec2 arg_parm) {
+	void MovingEngine::MovingEntity::Begin(double arg_tick_count, glm::vec2 arg_parm) {
 	}
 
-	void scenes_move_engine::move_function::stop() {
+	void MovingEngine::MovingEntity::Stop() {
 	}
 
-	void scenes_move_engine::move_function::do_moving(glm::vec3 &arg_out) {
+	void MovingEngine::MovingEntity::DoMoving(glm::vec3 &arg_out) {
 	}
 
-	void scenes_move_engine::move_function::adjust_param(double arg_tick_count, glm::vec2 arg_parm) {
+	void MovingEngine::MovingEntity::AdjustParameter(double arg_tick_count, glm::vec2 arg_parm) {
 	}
 	
 
 	//===
-	const double scenes_move_engine::move_pannig::DIF_PER_MILLI = 0.25 / 1000.0;
-	scenes_move_engine::move_pannig::move_pannig() : move_function() {
-		_clear();
+	const double MovingEngine::MovingPanning::DIF_PER_MILLI = 0.25 / 1000.0;
+	MovingEngine::MovingPanning::MovingPanning() : MovingEntity() {
+		Clear();
 	}
 
-	scenes_move_engine::move_pannig::~move_pannig() {
+	MovingEngine::MovingPanning::~MovingPanning() {
 	}
 
-	void scenes_move_engine::move_pannig::begin(double arg_tick_count, glm::vec2 arg_parm) {
-		_clear();
+	void MovingEngine::MovingPanning::Begin(double arg_tick_count, glm::vec2 arg_parm) {
+		Clear();
 		_mouse_down = true;
 		_history_pos = arg_parm;
 	}
 
-	void scenes_move_engine::move_pannig::stop() {
+	void MovingEngine::MovingPanning::Stop() {
 		_mouse_down = false;
 	}
 
-	void scenes_move_engine::move_pannig::_clear() {
+	void MovingEngine::MovingPanning::Clear() {
 		_mouse_down = false;
 		_vert_speed = 0;
 		_hori_speed = 0;
 		_history_pos = glm::vec2(0.0);
 	}
 
-	void scenes_move_engine::move_pannig::do_physical(double &arg_angle, double arg_tick_count) {
+	void MovingEngine::MovingPanning::DoPhysical(double &arg_angle, double arg_tick_count) {
 		if ( arg_angle > 0 ) {
 			arg_angle -= DIF_PER_MILLI * arg_tick_count;
 			if ( arg_angle < 0 ) arg_angle = 0;
@@ -98,7 +98,7 @@ namespace vnaon_scenes {
 		}
 	}
 
-	void scenes_move_engine::move_pannig::do_moving(glm::vec3 &arg_out) {
+	void MovingEngine::MovingPanning::DoMoving(glm::vec3 &arg_out) {
 		if ( _hori_speed != 0 ) { 
 			glm::dmat4 rot = glm::rotate(glm::dmat4(1.0), _hori_speed, glm::dvec3(0.0, 1.0, 0.0));
 			arg_out = rot * glm::dvec4(arg_out, 1.0);
@@ -109,7 +109,7 @@ namespace vnaon_scenes {
 		}
 	}
 
-	void scenes_move_engine::move_pannig::adjust_param(double arg_tick_count, glm::vec2 arg_parm) {
+	void MovingEngine::MovingPanning::AdjustParameter(double arg_tick_count, glm::vec2 arg_parm) {
 
 		if ( _mouse_down && arg_tick_count > 0 ) {
 
@@ -122,9 +122,9 @@ namespace vnaon_scenes {
 			_history_pos = arg_parm;
 		} else {
 			if ( _hori_speed != 0 )
-				do_physical(_hori_speed, arg_tick_count);
+				DoPhysical(_hori_speed, arg_tick_count);
 			if ( _vert_speed != 0 )
-				do_physical(_vert_speed, arg_tick_count);
+				DoPhysical(_vert_speed, arg_tick_count);
 		}
 
 	}

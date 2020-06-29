@@ -1,41 +1,40 @@
 #pragma once
-#include "scenes_object.h"
+#include "scenes_entity.h"
 
 
 
 namespace vnaon_scenes {
 
-	class scenes_skybox;
-	typedef std::shared_ptr<scenes_skybox> p_scenes_skybox;
-	class scenes_skybox : public scenes_object {
+	class ScenesSkyBox;
+	class ScenesSkyBox : public ScenesEntity {
 
 	protected:
-		vnaon_gl::p_vertex_arr p_vertex_array;
-		vnaon_gl::p_program p_skybox_shaderprogram;
-		vnaon_gl::p_skybox p_texture;
+		vnaon_gl::GLVertexArray_p p_vertex_array;
+		vnaon_gl::GLProgram_p p_skybox_shaderprogram;
+		vnaon_gl::GLSkyBox_p GLTexture_p;
 		bool ready_to_draw;
 
 	public:
-		scenes_skybox();
-		~scenes_skybox();
+		ScenesSkyBox();
+		~ScenesSkyBox();
 
-		virtual void init(vnaon_gl::GLcontroller *parg_gl) override;
+		virtual void Init(vnaon_gl::GLManager *parg_gl) override;
 
-		virtual void release_gl_resource() override;
+		virtual void ReleaseResource() override;
 
-		static p_scenes_object create();
+		static ScenesEntity_p Create();
 
 	protected:
-		virtual void draws(vnaon_gl::GLcontroller *parg_gl, const vnaon_common::camera &carg_camera) override;
+		virtual void MainDraw(vnaon_gl::GLManager *parg_gl, const vnaon_common::Camera &carg_camera) override;
 
 	private:
-		virtual bool _init_render(vnaon_gl::GLcontroller *parg_gl) override;
+		virtual bool ReadyToDraw(vnaon_gl::GLManager *parg_gl) override;
 
-		bool _init_program(vnaon_gl::GLcontroller *parg_gl);
+		bool InitProgram(vnaon_gl::GLManager *parg_gl);
 
-		bool _init_texture(vnaon_gl::GLcontroller *parg_gl);
+		bool InitTexture(vnaon_gl::GLManager *parg_gl);
 
-		bool _init_vertex(vnaon_gl::GLcontroller *parg_gl);
+		bool InitBuffer(vnaon_gl::GLManager *parg_gl);
 
 	};
 

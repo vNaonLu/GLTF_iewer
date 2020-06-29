@@ -5,50 +5,50 @@
 
 namespace vnaon_gl {
 
-	class GLcontroller;
+	class GLManager;
 
-	class GLresource;
-	typedef std::shared_ptr<GLresource> p_res;
+	class GLResource;
+	typedef std::shared_ptr<GLResource> GLResource_p;
 
 
 
 	/// <summary>
 	/// An interface of OpenGL's the resorce.
 	/// </summary>
-	class GLresource {
+	class GLResource {
 	
 	public:
 		typedef std::function<void(GLuint*)>  d_destroy_func;
 
 	private:
 		GLuint _name_h;
-		d_destroy_func destroy_function;
+		d_destroy_func _destroy_function;
 
 	protected:
 		bool valid;
 
 	public:
-		GLresource(GLuint arg_handle);
-		virtual ~GLresource();
+		GLResource(GLuint arg_handle);
+		virtual ~GLResource();
 
 		/// <summary>
 		/// Get the handle object of the OpenGL's resource.
 		/// </summary>
 		/// <returns>(GLint) The handle of OpenGL's object.</returns>
-		GLuint get_handle() const;
+		GLuint GetHandle() const;
 
 
 	protected:
-		virtual bool is_valid() const;
+		virtual bool IsValid() const;
 
-		void set_handle(GLuint arg_handle);
+		void SetHandle(GLuint arg_handle);
 		/// <summary>
 		/// Attach a function to OpenGL's resource, which will be called when the destruction of the object.
 		/// </summary>
 		/// <param name="func">(void(GLuint*)) A function with input that is the handle of object, and will not return anything.</param>
-		void _attach_destory_func(d_destroy_func arg_func);
+		void AttachDestroyFunction(d_destroy_func arg_func);
 
-		friend class GLcontroller;	
+		friend class GLManager;	
 	};
 
 }

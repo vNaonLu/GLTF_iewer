@@ -1,17 +1,17 @@
 #include "scenes_engine.h"
-#include "GLprogram.h"
-#include "GLobject.h"
+#include "gl_program.h"
+#include "gl_entity.h"
 #include "scenes_skybox.h"
 
 
 
-#include "_DEBUG_OBJECT.hpp"
+#include "debug_tools.hpp"
 
 
 
 namespace vnaon_scenes {
 
-	scenes_engine::scenes_engine() {
+	ScenesEngine::ScenesEngine() {
 		_p_glcontroller = nullptr;
 		_near = 0.1;
 		_far = 10.0;
@@ -19,49 +19,49 @@ namespace vnaon_scenes {
 		_first_render = true;
 		entities.clear();
 
-		_init();
+		Init();
 	}
 
-	scenes_engine::~scenes_engine() {
+	ScenesEngine::~ScenesEngine() {
 		if ( _p_glcontroller != nullptr ) delete _p_glcontroller;
 	}
 
-	void scenes_engine::draw(glm::ivec2 arg_viewport, glm::vec3 arg_frustum_pos) {
-		_set_camera(arg_viewport, arg_frustum_pos, _near, _far);
+	void ScenesEngine::Draw(glm::ivec2 arg_viewport, glm::vec3 arg_frustum_pos) {
+		SetCamera(arg_viewport, arg_frustum_pos, _near, _far);
 
 		if ( _p_glcontroller == nullptr ) return;
 
 		if ( _first_render ) {
 			_first_render = false;
-			_init_render();
+			InitRender();
 		}
 
-		_p_glcontroller->adjust_viewport(arg_viewport.x, arg_viewport.y);
-		_p_glcontroller->set_clean_color(vnaon_gl::GLcolor("#505050"));
-		_p_glcontroller->clear();
+		_p_glcontroller->AdjustViewport(arg_viewport.x, arg_viewport.y);
+		_p_glcontroller->SetClearColor(vnaon_gl::GLColor("#505050"));
+		_p_glcontroller->Clear();
 
 		for ( auto entity : entities ) {
-			entity->draw_scenes(_p_glcontroller, _camera);
+			entity->DrawScenes(_p_glcontroller, _camera);
 		}
 
 	}
 
-	void scenes_engine::_init() {
-		_p_glcontroller = new vnaon_gl::GLcontroller();
+	void ScenesEngine::Init() {
+		_p_glcontroller = new vnaon_gl::GLManager();
 
-		entities.push_back(scenes_skybox::create());
+		entities.push_back(ScenesSkyBox::Create());
 	}
 
-	void scenes_engine::_set_camera(glm::ivec2 arg_viewport, glm::vec3 arg_pos, double arg_near, double arg_far){
+	void ScenesEngine::SetCamera(glm::ivec2 arg_viewport, glm::vec3 arg_pos, double arg_near, double arg_far){
 		if ( arg_viewport.y > 0 ) {
-			_camera.set_camera(arg_pos);
-			_camera.set_perspective(45.0, (double) arg_viewport.x / (double) arg_viewport.y, arg_near, arg_far);
+			_camera.SetPosition(arg_pos);
+			_camera.SetPerspective(45.0, (double) arg_viewport.x / (double) arg_viewport.y, arg_near, arg_far);
 		}
 	}
 
-	void scenes_engine::_init_render() {
+	void ScenesEngine::InitRender() {
 		for ( auto entity : entities )
-			entity->init(_p_glcontroller);
+			entity->Init(_p_glcontroller);
 	}
 
 }
